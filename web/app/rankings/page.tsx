@@ -17,10 +17,10 @@ const GRADE_ORDER: Record<string, number> = { A: 0, B: 1, C: 2, D: 3, F: 4 };
 
 const GRADE_STYLE: Record<string, string> = {
   A: 'bg-[#1D9E75] text-white',
-  B: 'bg-[#52c997] text-white',
-  C: 'bg-[#f5a623] text-white',
-  D: 'bg-[#e8722a] text-white',
-  F: 'bg-[#e53e3e] text-white',
+  B: 'bg-[#7CBE42] text-white',
+  C: 'bg-[#F5C518] text-gray-900',
+  D: 'bg-[#F07C28] text-white',
+  F: 'bg-[#E53E3E] text-white',
 };
 
 function toSlug(name: string) {

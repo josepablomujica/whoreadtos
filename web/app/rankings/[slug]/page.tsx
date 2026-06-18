@@ -48,10 +48,14 @@ export async function generateMetadata(
 
 const GRADE_BG: Record<string, string> = {
   A: 'bg-[#1D9E75]',
-  B: 'bg-[#52c997]',
-  C: 'bg-[#f5a623]',
-  D: 'bg-[#e8722a]',
-  F: 'bg-[#e53e3e]',
+  B: 'bg-[#7CBE42]',
+  C: 'bg-[#F5C518]',
+  D: 'bg-[#F07C28]',
+  F: 'bg-[#E53E3E]',
+};
+
+const GRADE_TEXT: Record<string, string> = {
+  A: 'text-white', B: 'text-white', C: 'text-gray-900', D: 'text-white', F: 'text-white',
 };
 
 const GRADE_LABEL: Record<string, string> = {
@@ -138,7 +142,7 @@ export default async function CompanyDetail(
           {company.score && (
             <div className="flex flex-col items-center gap-1 flex-shrink-0">
               <div
-                className={`w-20 h-20 rounded-2xl flex items-center justify-center text-white font-extrabold text-4xl ${GRADE_BG[company.score] ?? 'bg-gray-300'}`}
+                className={`w-20 h-20 rounded-2xl flex items-center justify-center font-extrabold text-4xl ${GRADE_BG[company.score] ?? 'bg-gray-300'} ${GRADE_TEXT[company.score] ?? 'text-white'}`}
               >
                 {company.score}
               </div>

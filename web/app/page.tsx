@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Home() {
   const mockAnalysis = {
@@ -16,10 +17,10 @@ export default function Home() {
 
   const gradeColor: Record<string, string> = {
     A: 'bg-[#1D9E75]',
-    B: 'bg-[#52c997]',
-    C: 'bg-[#f5a623]',
-    D: 'bg-[#e8722a]',
-    F: 'bg-[#e53e3e]',
+    B: 'bg-[#7CBE42]',
+    C: 'bg-[#F5C518]',
+    D: 'bg-[#F07C28]',
+    F: 'bg-[#E53E3E]',
   };
 
   const riskColor: Record<string, string> = {
@@ -85,11 +86,13 @@ export default function Home() {
                 <div className="font-bold text-[#1D9E75] text-[15px] leading-none">whoreadtos</div>
                 <div className="text-[11px] text-gray-400 mt-[3px]">{mockAnalysis.site}</div>
               </div>
-              <div
-                className={`w-10 h-10 rounded-lg flex items-center justify-center ${gradeColor[mockAnalysis.score]} text-white font-extrabold text-xl`}
-              >
-                {mockAnalysis.score}
-              </div>
+              <Image
+                src="/icon.png"
+                alt="whoreadtos"
+                width={40}
+                height={40}
+                className="rounded-lg"
+              />
             </div>
 
             {/* Findings */}
