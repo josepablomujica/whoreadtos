@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>whoreadtos</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <span class="logo">whoreadtos</span>
+        <span class="site-name" id="siteName">—</span>
+      </div>
+      <div class="grade-badge" id="gradeBadge" style="display:none"></div>
+    </div>
+
+    <!-- Loading state -->
+    <div class="state" id="stateLoading" style="display:none">
+      <div class="spinner"></div>
+      <p class="loading-text">Analyzing<span class="dots"></span></p>
+    </div>
+
+    <!-- Manual input state (not a TOS page) -->
+    <div class="state" id="stateManual" style="display:none">
+      <p class="hint">This page doesn't look like a TOS.<br>Paste the text below to analyze it.</p>
+      <textarea id="manualText" placeholder="Paste Terms of Service or Privacy Policy text here..."></textarea>
+      <button class="btn-analyze" id="btnManual">Analyze</button>
+    </div>
+
+    <!-- Results state -->
+    <div class="state" id="stateResults" style="display:none">
+      <ul class="findings" id="findingsList"></ul>
+      <div class="footer-bar">
+        <span class="analysis-time" id="analysisTime"></span>
+        <a href="#" class="full-report" id="fullReport" style="display:none">Full report</a>
+      </div>
+    </div>
+
+    <!-- Error state -->
+    <div class="state" id="stateError" style="display:none">
+      <p class="error-msg" id="errorMsg"></p>
+      <button class="btn-retry" id="btnRetry">Try again</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

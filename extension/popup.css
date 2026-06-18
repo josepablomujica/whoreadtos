@@ -1,0 +1,238 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  width: 340px;
+  background: #fff;
+  color: #1a1a1a;
+  font-size: 14px;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 160px;
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 15px;
+  color: #1D9E75;
+  letter-spacing: -0.3px;
+}
+
+.site-name {
+  font-size: 11px;
+  color: #888;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Grade badge ── */
+.grade-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 20px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.grade-A { background: #1D9E75; }
+.grade-B { background: #52c997; }
+.grade-C { background: #f5a623; }
+.grade-D { background: #e8722a; }
+.grade-F { background: #e53e3e; }
+
+/* ── States ── */
+.state {
+  padding: 16px 14px;
+}
+
+/* Loading */
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid #eee;
+  border-top-color: #1D9E75;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 0 auto 10px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  text-align: center;
+  color: #555;
+  font-size: 13px;
+}
+
+.dots::after {
+  content: '';
+  animation: dots 1.4s steps(3, end) infinite;
+}
+
+@keyframes dots {
+  0%   { content: ''; }
+  33%  { content: '.'; }
+  66%  { content: '..'; }
+  100% { content: '...'; }
+}
+
+/* Manual input */
+.hint {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 12px;
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+  color: #333;
+}
+
+textarea:focus {
+  border-color: #1D9E75;
+}
+
+.btn-analyze {
+  margin-top: 10px;
+  width: 100%;
+  background: #1D9E75;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-analyze:hover { background: #179165; }
+.btn-analyze:disabled { background: #aaa; cursor: default; }
+
+/* Findings */
+.findings {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.finding-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.risk-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.risk-high     { background: #e53e3e; }
+.risk-medium   { background: #f5a623; }
+.risk-positive { background: #1D9E75; }
+
+.finding-body {
+  flex: 1;
+}
+
+.finding-text {
+  font-size: 13px;
+  color: #1a1a1a;
+  line-height: 1.4;
+}
+
+.finding-section {
+  font-size: 11px;
+  color: #999;
+  margin-top: 1px;
+}
+
+/* Footer bar */
+.footer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.analysis-time {
+  font-size: 11px;
+  color: #bbb;
+}
+
+.full-report {
+  font-size: 11px;
+  color: #1D9E75;
+  text-decoration: none;
+}
+
+.full-report:hover { text-decoration: underline; }
+
+/* Error */
+.error-msg {
+  font-size: 13px;
+  color: #e53e3e;
+  text-align: center;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.btn-retry {
+  width: 100%;
+  background: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-retry:hover { background: #eee; }
