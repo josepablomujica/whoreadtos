@@ -1,4 +1,4 @@
-const API_BASE = 'https://whoreadtos.vercel.app';
+const API_BASE = 'https://whoreadtos.com';
 
 const TOS_KEYWORDS = [
   'terms', 'privacy', 'tos', 'conditions', 'legal', 'policy',
