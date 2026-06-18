@@ -140,12 +140,19 @@ export default function Rankings() {
                   >
                     <td className="px-4 py-3 text-gray-300 tabular-nums">{i + 1}</td>
                     <td className="px-4 py-3">
-                      <Link
-                        href={`/rankings/${toSlug(company.name)}`}
-                        className="font-medium text-gray-900 hover:text-[#1D9E75] transition-colors"
-                      >
-                        {company.name}
-                      </Link>
+                      <div className="flex items-center gap-2">
+                        <Link
+                          href={`/rankings/${toSlug(company.name)}`}
+                          className="font-medium text-gray-900 hover:text-[#1D9E75] transition-colors"
+                        >
+                          {company.name}
+                        </Link>
+                        {company.name === 'whoreadtos' && (
+                          <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-[#f0fdf9] text-[#1D9E75] border border-[#a7f3d0] whitespace-nowrap">
+                            That&apos;s us
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="px-4 py-3 text-gray-400 hidden sm:table-cell">{company.sector}</td>
                     <td className="px-4 py-3 text-center">
