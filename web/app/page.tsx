@@ -144,14 +144,18 @@ export default function Home() {
       {/* Footer */}
       <footer className="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-400">
         <span>Free forever. No ads. No tracking. No irony.</span>
-        <a
-          href="https://ko-fi.com/wereadtos"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[#1D9E75] hover:underline"
-        >
-          ☕ Buy me a coffee
-        </a>
+        <div className="flex items-center gap-4">
+          <Link href="/terms" className="hover:text-[#1D9E75] transition-colors">Terms</Link>
+          <Link href="/privacy" className="hover:text-[#1D9E75] transition-colors">Privacy</Link>
+          <a
+            href="https://ko-fi.com/wereadtos"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#1D9E75] hover:underline"
+          >
+            ☕ Buy me a coffee
+          </a>
+        </div>
       </footer>
     </div>
   );
