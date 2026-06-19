@@ -221,14 +221,20 @@ textarea:focus {
 
 .full-report:hover { text-decoration: underline; }
 
-.kofi-link {
+.kofi-prompt {
   font-size: 11px;
-  text-decoration: none;
-  opacity: 0.5;
-  transition: opacity 0.15s;
+  color: #bbb;
+  text-align: center;
+  margin-top: 8px;
 }
 
-.kofi-link:hover { opacity: 1; }
+.kofi-prompt a {
+  color: #bbb;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.kofi-prompt a:hover { color: #1D9E75; }
 
 /* Error */
 .error-msg {

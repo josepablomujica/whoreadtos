@@ -101,11 +101,11 @@ export default function Terms() {
           <section>
             <h2 className="text-lg font-bold text-gray-900 mb-2">Contact</h2>
             <p>
-              Questions? Email us at{' '}
-              <a href="mailto:josepablomujica@gmail.com" className="text-[#1D9E75] hover:underline">
-                josepablomujica@gmail.com
-              </a>
-              . We are a small independent project and we read every email.
+              Questions?{' '}
+              <Link href="/contact" className="text-[#1D9E75] hover:underline">
+                Get in touch
+              </Link>
+              . We are a small independent project and we read every message.
             </p>
           </section>
 

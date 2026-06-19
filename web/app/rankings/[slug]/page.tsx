@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
+import KofiLink from '@/app/components/KofiLink';
 import type { Metadata } from 'next';
 
 interface Item {
@@ -192,13 +193,17 @@ export default async function CompanyDetail(
         )}
 
         {/* Back button */}
-        <div className="mt-10 pt-6 border-t border-gray-100">
+        <div className="mt-10 pt-6 border-t border-gray-100 flex items-center justify-between flex-wrap gap-3">
           <Link
             href="/rankings"
             className="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium text-sm px-4 py-2 rounded-lg transition-colors"
           >
             ← Back to rankings
           </Link>
+          <p className="text-xs text-gray-400">
+            This analysis is free.{' '}
+            <KofiLink>Buy us a coffee ☕</KofiLink>
+          </p>
         </div>
       </main>
 

@@ -26,13 +26,13 @@ export default function Home() {
       {/* Hero */}
       <section className="max-w-5xl mx-auto px-6 pt-20 pb-16 text-center">
         <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 leading-tight">
-          Who reads TOS?
+          Nobody reads the terms.
           <br />
           <span className="text-[#1D9E75]">We do.</span>
         </h1>
         <p className="mt-5 text-xl text-gray-500 max-w-xl mx-auto leading-relaxed">
-          Know what you&apos;re agreeing to before you click accept.
-          Get a plain-English breakdown of any Terms of Service in seconds.
+          Install the extension. We break down any Terms of Service into plain,
+          simple language, before you click &ldquo;I agree.&rdquo;
         </p>
         <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
           <a
@@ -53,8 +53,8 @@ export default function Home() {
       {/* Live analyze form */}
       <section id="analyze" className="max-w-5xl mx-auto px-6 pb-20">
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-gray-900">Try it now</h2>
-          <p className="mt-2 text-gray-500 text-sm">Paste any TOS link and get an instant breakdown</p>
+          <h2 className="text-2xl font-bold text-gray-900">Got your own ToS? See where it stands.</h2>
+          <p className="mt-2 text-gray-500 text-sm">Paste it below and get the same grade everyone else gets. No signup, no legal jargon, just a straight answer.</p>
         </div>
         <AnalyzeForm />
       </section>
@@ -73,6 +73,34 @@ export default function Home() {
               <div className="text-gray-500 text-sm mt-1">{f.desc}</div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Rankings promo */}
+      <section className="max-w-5xl mx-auto px-6 py-16">
+        <div className="max-w-2xl">
+          <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 leading-snug">
+            We&apos;re building the largest public scoreboard of Terms of Service on the internet.
+          </h2>
+          <p className="mt-4 text-gray-500 leading-relaxed">
+            Every company that&apos;s ever made you click &ldquo;I agree&rdquo; without reading it,
+            we&apos;re putting them all in one place: graded, ranked, and tracked over time.
+            Not because we&apos;re lawyers. Because somebody has to keep score.
+          </p>
+          <div className="mt-6 flex flex-col sm:flex-row gap-3">
+            <Link
+              href="/rankings"
+              className="inline-flex items-center justify-center bg-[#1D9E75] text-white font-semibold px-5 py-3 rounded-xl hover:bg-[#179165] transition-colors text-sm"
+            >
+              See the rankings
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center border border-gray-200 text-gray-600 font-medium px-5 py-3 rounded-xl hover:bg-gray-50 transition-colors text-sm"
+            >
+              Don&apos;t see your company? Tell us, we&apos;ll grade it.
+            </Link>
+          </div>
         </div>
       </section>
 

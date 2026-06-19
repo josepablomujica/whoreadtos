@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import KofiLink from '@/app/components/KofiLink';
 
 interface Company {
   id: string;
@@ -82,6 +83,10 @@ export default function Rankings() {
           <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">TOS Rankings</h1>
           <p className="mt-2 text-gray-500">
             {loading ? 'Loading…' : `${filtered.length} companies analyzed — graded A (safest) to F (riskiest)`}
+          </p>
+          <p className="mt-1 text-xs text-gray-400">
+            Free forever — kept alive by{' '}
+            <KofiLink>coffee ☕</KofiLink>
           </p>
         </div>
 

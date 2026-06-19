@@ -125,10 +125,10 @@ export default function Privacy() {
           <section>
             <h2 className="text-lg font-bold text-gray-900 mb-2">Contact</h2>
             <p>
-              Questions or concerns? Email{' '}
-              <a href="mailto:josepablomujica@gmail.com" className="text-[#1D9E75] hover:underline">
-                josepablomujica@gmail.com
-              </a>
+              Questions or concerns?{' '}
+              <Link href="/contact" className="text-[#1D9E75] hover:underline">
+                Get in touch
+              </Link>
               .
             </p>
           </section>

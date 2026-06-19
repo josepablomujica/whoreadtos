@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import KofiLink from './components/KofiLink';
 
 interface FindingItem {
   risk: 'high' | 'medium' | 'positive';
@@ -182,10 +183,15 @@ export default function AnalyzeForm() {
             ))}
           </ul>
 
+          <p className="mt-5 text-xs text-center text-gray-400">
+            Found this useful?{' '}
+            <KofiLink>Buy us a coffee ☕</KofiLink>
+          </p>
+
           <button
             type="button"
             onClick={() => { setResult(null); setUrlInput(''); setTextInput(''); setMode('url'); }}
-            className="mt-5 text-xs text-gray-400 hover:text-[#1D9E75] transition-colors"
+            className="mt-3 text-xs text-gray-400 hover:text-[#1D9E75] transition-colors"
           >
             ← Analyze another
           </button>
