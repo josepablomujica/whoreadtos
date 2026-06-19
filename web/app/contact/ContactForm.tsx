@@ -76,7 +76,7 @@ export default function ContactForm() {
         <textarea
           value={message}
           onChange={e => setMessage(e.target.value)}
-          placeholder="Bug report, company request, question, or just hi."
+          placeholder="Company name + website (if you want it ranked), bug report, or just hi."
           rows={5}
           required
           className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#1D9E75] focus:ring-1 focus:ring-[#1D9E75] transition-colors resize-y"

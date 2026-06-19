@@ -22,7 +22,7 @@ export default function Contact() {
       <main className="max-w-3xl mx-auto px-6 py-12">
         <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 mb-2">Contact</h1>
         <p className="text-gray-500 mb-10">
-          Bug? Company request? Just want to say hi? We read every message.
+          Want your company added to the rankings? Found a bug? Just want to say hi? We read every message.
         </p>
 
         <ContactForm />
