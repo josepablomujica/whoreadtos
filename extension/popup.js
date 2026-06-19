@@ -11,9 +11,19 @@ function isTosPage(url, title) {
 }
 
 function showState(id) {
-  ['stateLoading', 'stateManual', 'stateResults', 'stateError'].forEach(s => {
+  ['stateLoading', 'stateManual', 'statePermission', 'stateResults', 'stateError'].forEach(s => {
     document.getElementById(s).style.display = s === id ? '' : 'none';
   });
+}
+
+function showManualWithHint(hint) {
+  document.getElementById('manualHint').innerHTML = hint;
+  showState('stateManual');
+}
+
+function resetManualHint() {
+  document.getElementById('manualHint').innerHTML =
+    "This page doesn't look like a TOS.<br>Paste the text below to analyze it.";
 }
 
 function setGrade(grade) {
@@ -77,10 +87,9 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
-async function extractPageText() {
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+async function extractPageText(tabId) {
   const results = await chrome.scripting.executeScript({
-    target: { tabId: tab.id },
+    target: { tabId },
     func: () => {
       const selectors = ['main', 'article', '.content', '#content', 'body'];
       for (const sel of selectors) {
@@ -93,12 +102,24 @@ async function extractPageText() {
   return results?.[0]?.result || '';
 }
 
+async function tryExtract(tab, url) {
+  try {
+    const text = await extractPageText(tab.id);
+    if (text.length >= 100) {
+      await analyze(text, url);
+    } else {
+      showManualWithHint("Couldn't read this page automatically. Paste the text below.");
+    }
+  } catch (_) {
+    showManualWithHint("Couldn't read this page automatically. Paste the text below.");
+  }
+}
+
 async function init() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   const url = tab.url || '';
   const title = tab.title || '';
 
-  // Set site name in header
   try {
     const hostname = new URL(url).hostname.replace(/^www\./, '');
     document.getElementById('siteName').textContent = hostname;
@@ -106,23 +127,35 @@ async function init() {
     document.getElementById('siteName').textContent = title;
   }
 
-  if (isTosPage(url, title)) {
-    try {
-      const text = await extractPageText();
-      if (text.length >= 100) {
-        await analyze(text, url);
-      } else {
-        showState('stateManual');
-      }
-    } catch (_) {
-      showState('stateManual');
-    }
-  } else {
+  if (!isTosPage(url, title)) {
+    resetManualHint();
     showState('stateManual');
+    return;
+  }
+
+  const hasPermission = await chrome.permissions.contains({ origins: ['<all_urls>'] });
+  if (hasPermission) {
+    await tryExtract(tab, url);
+  } else {
+    showState('statePermission');
   }
 }
 
-// Wire up manual analyze button
+// Permission request — must stay inside the click handler (user gesture required)
+document.getElementById('btnAllow').addEventListener('click', async () => {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  const url = tab.url || '';
+
+  const granted = await chrome.permissions.request({ origins: ['<all_urls>'] });
+  if (granted) {
+    showState('stateLoading');
+    await tryExtract(tab, url);
+  } else {
+    showManualWithHint("No problem. Paste the text below and we'll grade it anyway.");
+  }
+});
+
+// Manual analyze button
 document.getElementById('btnManual').addEventListener('click', async () => {
   const text = document.getElementById('manualText').value.trim();
   if (text.length < 100) {
@@ -133,7 +166,7 @@ document.getElementById('btnManual').addEventListener('click', async () => {
   await analyze(text, tab?.url || '');
 });
 
-// Wire up retry button
+// Retry button
 document.getElementById('btnRetry').addEventListener('click', () => init());
 
 init();

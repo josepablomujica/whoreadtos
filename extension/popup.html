@@ -23,11 +23,17 @@
       <p class="loading-text">Analyzing<span class="dots"></span></p>
     </div>
 
-    <!-- Manual input state (not a TOS page) -->
+    <!-- Manual input state (not a TOS page, or fallback after failure) -->
     <div class="state" id="stateManual" style="display:none">
-      <p class="hint">This page doesn't look like a TOS.<br>Paste the text below to analyze it.</p>
+      <p class="hint" id="manualHint">This page doesn't look like a TOS.<br>Paste the text below to analyze it.</p>
       <textarea id="manualText" placeholder="Paste Terms of Service or Privacy Policy text here..."></textarea>
       <button class="btn-analyze" id="btnManual">Analyze</button>
+    </div>
+
+    <!-- Permission request state (TOS detected, host permission needed) -->
+    <div class="state" id="statePermission" style="display:none">
+      <p class="hint">We found a TOS page. We just need your OK to read it.<br>(Chrome will ask you to confirm, just this once.)</p>
+      <button class="btn-analyze" id="btnAllow">Read this page for me</button>
     </div>
 
     <!-- Results state -->
