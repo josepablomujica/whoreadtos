@@ -141,6 +141,7 @@ export default function Privacy() {
         <div className="flex gap-4">
           <Link href="/terms" className="hover:text-[#1D9E75] transition-colors">Terms</Link>
           <Link href="/privacy" className="text-[#1D9E75]">Privacy</Link>
+          <Link href="/contact" className="hover:text-[#1D9E75] transition-colors">Contact</Link>
         </div>
       </footer>
     </div>

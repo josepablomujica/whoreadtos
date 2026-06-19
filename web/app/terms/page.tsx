@@ -117,6 +117,7 @@ export default function Terms() {
         <div className="flex gap-4">
           <Link href="/terms" className="text-[#1D9E75]">Terms</Link>
           <Link href="/privacy" className="hover:text-[#1D9E75] transition-colors">Privacy</Link>
+          <Link href="/contact" className="hover:text-[#1D9E75] transition-colors">Contact</Link>
         </div>
       </footer>
     </div>

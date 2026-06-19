@@ -82,6 +82,7 @@ export default function Home() {
         <div className="flex items-center gap-4">
           <Link href="/terms" className="hover:text-[#1D9E75] transition-colors">Terms</Link>
           <Link href="/privacy" className="hover:text-[#1D9E75] transition-colors">Privacy</Link>
+          <Link href="/contact" className="hover:text-[#1D9E75] transition-colors">Contact</Link>
           <a
             href="https://ko-fi.com/wereadtos"
             target="_blank"
