@@ -26,13 +26,6 @@ export default function Contact() {
         </p>
 
         <ContactForm />
-
-        <p className="mt-6 text-sm text-gray-400">
-          Or email directly:{' '}
-          <a href="mailto:josepablomujica@gmail.com" className="text-[#1D9E75] hover:underline">
-            josepablomujica@gmail.com
-          </a>
-        </p>
       </main>
 
       <footer className="max-w-3xl mx-auto px-6 py-8 flex flex-wrap gap-4 items-center justify-between text-sm text-gray-400 border-t border-gray-100 mt-6">
