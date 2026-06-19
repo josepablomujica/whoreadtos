@@ -16,7 +16,7 @@ export default function Home() {
           </div>
           <a
             href="#"
-            className="bg-[#1D9E75] text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-[#179165] transition-colors"
+            className="hidden sm:block bg-[#1D9E75] text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-[#179165] transition-colors"
           >
             Add to Chrome — it&apos;s free
           </a>
