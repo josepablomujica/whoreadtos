@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import ContactForm from './ContactForm';
 
 export const metadata: Metadata = {
-  title: 'Contact — whoreadtos',
-  description: 'Get in touch with the whoreadtos team.',
+  title: 'Contact — Who Read ToS',
+  description: 'Get in touch with the Who Read ToS team.',
 };
 
 export default function Contact() {
@@ -13,7 +13,7 @@ export default function Contact() {
       <nav className="border-b border-gray-100">
         <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-6">
-            <Link href="/" className="font-bold text-[#1D9E75] text-lg tracking-tight">whoreadtos</Link>
+            <Link href="/" className="font-bold text-[#1D9E75] text-lg tracking-tight">Who Read ToS</Link>
             <Link href="/rankings" className="text-sm font-medium text-gray-600 hover:text-[#1D9E75] transition-colors">Rankings</Link>
           </div>
         </div>
@@ -29,7 +29,7 @@ export default function Contact() {
       </main>
 
       <footer className="max-w-3xl mx-auto px-6 py-8 flex flex-wrap gap-4 items-center justify-between text-sm text-gray-400 border-t border-gray-100 mt-6">
-        <Link href="/" className="hover:text-[#1D9E75] transition-colors">← whoreadtos</Link>
+        <Link href="/" className="hover:text-[#1D9E75] transition-colors">← Who Read ToS</Link>
         <div className="flex gap-4">
           <Link href="/terms" className="hover:text-[#1D9E75] transition-colors">Terms</Link>
           <Link href="/privacy" className="hover:text-[#1D9E75] transition-colors">Privacy</Link>

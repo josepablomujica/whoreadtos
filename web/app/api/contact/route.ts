@@ -22,10 +22,10 @@ export async function POST(req: NextRequest) {
 
   try {
     await resend.emails.send({
-      from: 'whoreadtos <onboarding@resend.dev>',
+      from: 'Who Read ToS <onboarding@resend.dev>',
       to: 'josepablomujica@gmail.com',
       replyTo: email.trim(),
-      subject: `[whoreadtos contact] ${name.trim()}`,
+      subject: `[Who Read ToS contact] ${name.trim()}`,
       text: `From: ${name.trim()} <${email.trim()}>\n\n${message.trim()}`,
     });
 

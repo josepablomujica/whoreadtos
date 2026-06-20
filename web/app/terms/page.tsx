@@ -2,8 +2,8 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service — whoreadtos',
-  description: 'Simple, honest terms for using whoreadtos.',
+  title: 'Terms of Service — Who Read ToS',
+  description: 'Simple, honest terms for using Who Read ToS.',
 };
 
 export default function Terms() {
@@ -12,7 +12,7 @@ export default function Terms() {
       <nav className="border-b border-gray-100">
         <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-6">
-            <Link href="/" className="font-bold text-[#1D9E75] text-lg tracking-tight">whoreadtos</Link>
+            <Link href="/" className="font-bold text-[#1D9E75] text-lg tracking-tight">Who Read ToS</Link>
             <Link href="/rankings" className="text-sm font-medium text-gray-600 hover:text-[#1D9E75] transition-colors">Rankings</Link>
           </div>
         </div>
@@ -26,9 +26,9 @@ export default function Terms() {
         <div className="prose prose-gray max-w-none space-y-8 text-gray-700 leading-relaxed">
 
           <section>
-            <h2 className="text-lg font-bold text-gray-900 mb-2">What is whoreadtos?</h2>
+            <h2 className="text-lg font-bold text-gray-900 mb-2">What is Who Read ToS?</h2>
             <p>
-              whoreadtos is a free browser extension and website that helps you understand Terms of Service and Privacy
+              Who Read ToS is a free browser extension and website that helps you understand Terms of Service and Privacy
               Policy documents from third-party companies. You give us the text of a document (either by visiting a TOS
               page directly or pasting it manually), and we summarize the key points in plain English with a grade from
               A (very safe) to F (very risky).
@@ -42,7 +42,7 @@ export default function Terms() {
           <section>
             <h2 className="text-lg font-bold text-gray-900 mb-2">No account required</h2>
             <p>
-              You do not need to create an account, provide an email address, or log in to use whoreadtos. The extension
+              You do not need to create an account, provide an email address, or log in to use Who Read ToS. The extension
               works entirely without identifying you. We do not know who you are, and we have no interest in finding out.
             </p>
           </section>
@@ -64,7 +64,7 @@ export default function Terms() {
           <section>
             <h2 className="text-lg font-bold text-gray-900 mb-2">Not legal advice</h2>
             <p>
-              whoreadtos is an informational tool. The summaries and grades we generate are produced by an AI model and
+              Who Read ToS is an informational tool. The summaries and grades we generate are produced by an AI model and
               may be incomplete, inaccurate, or outdated. <strong>Nothing on this site is legal advice.</strong> Do not
               rely solely on our analysis to make legal, financial, or business decisions. When it matters, read the
               original document and consult a qualified professional.
@@ -76,7 +76,7 @@ export default function Terms() {
             <p>
               The service is provided <strong>"as is"</strong> without warranties of any kind. We do not guarantee
               uptime, accuracy, completeness, or fitness for any particular purpose. We are not liable for any damages
-              arising from your use of whoreadtos.
+              arising from your use of Who Read ToS.
             </p>
           </section>
 
@@ -93,7 +93,7 @@ export default function Terms() {
           <section>
             <h2 className="text-lg font-bold text-gray-900 mb-2">Changes to this service</h2>
             <p>
-              We may modify, suspend, or discontinue whoreadtos at any time. If we make material changes to these terms,
+              We may modify, suspend, or discontinue Who Read ToS at any time. If we make material changes to these terms,
               we will update the date at the top of this page. Continued use after changes means you accept them.
             </p>
           </section>
@@ -113,7 +113,7 @@ export default function Terms() {
       </main>
 
       <footer className="max-w-3xl mx-auto px-6 py-8 flex flex-wrap gap-4 items-center justify-between text-sm text-gray-400 border-t border-gray-100 mt-6">
-        <Link href="/" className="hover:text-[#1D9E75] transition-colors">← whoreadtos</Link>
+        <Link href="/" className="hover:text-[#1D9E75] transition-colors">← Who Read ToS</Link>
         <div className="flex gap-4">
           <Link href="/terms" className="text-[#1D9E75]">Terms</Link>
           <Link href="/privacy" className="hover:text-[#1D9E75] transition-colors">Privacy</Link>

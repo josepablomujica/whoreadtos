@@ -9,7 +9,7 @@ export default function Home() {
       <nav className="border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-6">
-            <span className="font-bold text-[#1D9E75] text-lg tracking-tight">whoreadtos</span>
+            <span className="font-bold text-[#1D9E75] text-lg tracking-tight">Who Read ToS</span>
             <Link href="/rankings" className="text-sm font-medium text-gray-600 hover:text-[#1D9E75] transition-colors">
               Rankings
             </Link>

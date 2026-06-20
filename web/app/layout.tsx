@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "whoreadtos — Who reads TOS? We do.",
+  title: "Who Read ToS — Who reads TOS? We do.",
   description: "Instant AI analysis of Terms of Service. See what you're agreeing to in plain English.",
 };
 

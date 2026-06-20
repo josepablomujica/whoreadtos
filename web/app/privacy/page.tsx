@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy — whoreadtos',
+  title: 'Privacy Policy — Who Read ToS',
   description: 'We do not collect personal data. Here is exactly what we do and do not do.',
 };
 
@@ -12,7 +12,7 @@ export default function Privacy() {
       <nav className="border-b border-gray-100">
         <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-6">
-            <Link href="/" className="font-bold text-[#1D9E75] text-lg tracking-tight">whoreadtos</Link>
+            <Link href="/" className="font-bold text-[#1D9E75] text-lg tracking-tight">Who Read ToS</Link>
             <Link href="/rankings" className="text-sm font-medium text-gray-600 hover:text-[#1D9E75] transition-colors">Rankings</Link>
           </div>
         </div>
@@ -75,7 +75,7 @@ export default function Privacy() {
           <section>
             <h2 className="text-lg font-bold text-gray-900 mb-2">Cookies</h2>
             <p>
-              whoreadtos does not use tracking cookies, advertising cookies, or any third-party cookie. The only
+              Who Read ToS does not use tracking cookies, advertising cookies, or any third-party cookie. The only
               technical storage that may occur is browser-native caching to improve performance — this is controlled
               by your browser and contains no personal data.
             </p>
@@ -109,7 +109,7 @@ export default function Privacy() {
           <section>
             <h2 className="text-lg font-bold text-gray-900 mb-2">Children</h2>
             <p>
-              whoreadtos is not directed at children under 13. We do not knowingly collect data from anyone — children
+              Who Read ToS is not directed at children under 13. We do not knowingly collect data from anyone — children
               or adults.
             </p>
           </section>
@@ -137,7 +137,7 @@ export default function Privacy() {
       </main>
 
       <footer className="max-w-3xl mx-auto px-6 py-8 flex flex-wrap gap-4 items-center justify-between text-sm text-gray-400 border-t border-gray-100 mt-6">
-        <Link href="/" className="hover:text-[#1D9E75] transition-colors">← whoreadtos</Link>
+        <Link href="/" className="hover:text-[#1D9E75] transition-colors">← Who Read ToS</Link>
         <div className="flex gap-4">
           <Link href="/terms" className="hover:text-[#1D9E75] transition-colors">Terms</Link>
           <Link href="/privacy" className="text-[#1D9E75]">Privacy</Link>

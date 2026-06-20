@@ -40,9 +40,9 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { slug } = await params;
   const company = await getCompany(slug);
-  if (!company) return { title: 'Company not found — whoreadtos' };
+  if (!company) return { title: 'Company not found — Who Read ToS' };
   return {
-    title: `${company.name} TOS — Grade ${company.score} | whoreadtos`,
+    title: `${company.name} TOS — Grade ${company.score} | Who Read ToS`,
     description: `See what ${company.name}'s Terms of Service really say. Grade: ${company.score}.`,
   };
 }
@@ -101,7 +101,7 @@ export default async function CompanyDetail(
         <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <Link href="/" className="font-bold text-[#1D9E75] text-lg tracking-tight">
-              whoreadtos
+              Who Read ToS
             </Link>
             <Link href="/rankings" className="text-sm font-medium text-gray-600 hover:text-[#1D9E75] transition-colors">
               Rankings
@@ -208,7 +208,7 @@ export default async function CompanyDetail(
       </main>
 
       <footer className="max-w-3xl mx-auto px-6 py-8 flex items-center justify-between text-sm text-gray-400 border-t border-gray-100 mt-6">
-        <Link href="/" className="hover:text-[#1D9E75] transition-colors">← whoreadtos</Link>
+        <Link href="/" className="hover:text-[#1D9E75] transition-colors">← Who Read ToS</Link>
         <a href="https://ko-fi.com/wereadtos" target="_blank" rel="noopener noreferrer" className="hover:text-[#1D9E75]">
           ☕ Buy us a coffee
         </a>

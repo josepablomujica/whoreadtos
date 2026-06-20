@@ -62,7 +62,7 @@ export default function Rankings() {
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <Link href="/" className="font-bold text-[#1D9E75] text-lg tracking-tight">
-              whoreadtos
+              Who Read ToS
             </Link>
             <Link href="/rankings" className="text-sm font-medium text-gray-600 hover:text-[#1D9E75] transition-colors">
               Rankings
@@ -189,7 +189,7 @@ export default function Rankings() {
       </main>
 
       <footer className="max-w-5xl mx-auto px-6 py-8 flex items-center justify-between text-sm text-gray-400 border-t border-gray-100 mt-10">
-        <Link href="/" className="hover:text-[#1D9E75] transition-colors">← whoreadtos</Link>
+        <Link href="/" className="hover:text-[#1D9E75] transition-colors">← Who Read ToS</Link>
         <a href="https://ko-fi.com/wereadtos" target="_blank" rel="noopener noreferrer" className="hover:text-[#1D9E75]">
           ☕ Buy us a coffee
         </a>
