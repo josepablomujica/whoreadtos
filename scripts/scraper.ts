@@ -23,7 +23,7 @@ const COMPANIES = [
   { name: 'Meta',             sector: 'Big Tech',       logo_color: '#0082FB', tos_url: 'https://www.facebook.com/terms.php' },
   { name: 'Netflix',          sector: 'Big Tech',       logo_color: '#E50914', tos_url: 'https://help.netflix.com/legal/termsofuse' },
   { name: 'Tesla',            sector: 'Big Tech',       logo_color: '#CC0000', tos_url: 'https://www.tesla.com/legal/additional-resources/terms-and-conditions' },
-  { name: 'NVIDIA',           sector: 'Semiconductors', logo_color: '#76B900', tos_url: 'https://www.nvidia.com/en-us/about-nvidia/legal-info/terms-of-service/' },
+  { name: 'NVIDIA',           sector: 'Semiconductors', logo_color: '#76B900', tos_url: 'https://www.nvidia.com/legal/' },
   // Cloud / SaaS
   { name: 'Salesforce',       sector: 'Cloud & SaaS',   logo_color: '#00A1E0', tos_url: 'https://www.salesforce.com/company/legal/agreements/' },
   { name: 'Adobe',            sector: 'Cloud & SaaS',   logo_color: '#FF0000', tos_url: 'https://www.adobe.com/legal/terms.html' },
@@ -53,7 +53,7 @@ const COMPANIES = [
   { name: 'Fortinet',         sector: 'Cybersecurity',  logo_color: '#EE3124', tos_url: 'https://www.fortinet.com/corporate/about-us/legal.html' },
   { name: 'CrowdStrike',      sector: 'Cybersecurity',  logo_color: '#E3001B', tos_url: 'https://www.crowdstrike.com/terms-conditions/' },
   { name: 'Okta',             sector: 'Cybersecurity',  logo_color: '#007DC1', tos_url: 'https://www.okta.com/terms-of-service/' },
-  { name: 'Zscaler',          sector: 'Cybersecurity',  logo_color: '#005DAA', tos_url: 'https://www.zscaler.com/legal/terms-of-service' },
+  { name: 'Zscaler',          sector: 'Cybersecurity',  logo_color: '#005DAA', tos_url: 'https://www.zscaler.com/legal/end-user-subscription-agreement' },
   { name: 'Cloudflare',       sector: 'Cybersecurity',  logo_color: '#F48120', tos_url: 'https://www.cloudflare.com/terms/' },
   { name: 'Datadog',          sector: 'Cybersecurity',  logo_color: '#632CA6', tos_url: 'https://www.datadoghq.com/legal/terms/' },
   { name: 'Splunk',           sector: 'Cybersecurity',  logo_color: '#65A637', tos_url: 'https://www.splunk.com/en_us/legal/splunk-general-terms.html' },
@@ -104,7 +104,7 @@ const COMPANIES = [
   { name: 'Figma',            sector: 'Productivity',   logo_color: '#F24E1E', tos_url: 'https://www.figma.com/legal/tos/' },
   { name: 'Notion',           sector: 'Productivity',   logo_color: '#000000', tos_url: 'https://www.notion.com/terms' },
   { name: 'Asana',            sector: 'Productivity',   logo_color: '#F06A6A', tos_url: 'https://asana.com/terms' },
-  { name: 'Monday.com',       sector: 'Productivity',   logo_color: '#FF3750', tos_url: 'https://monday.com/l/tos/' },
+  { name: 'Monday.com',       sector: 'Productivity',   logo_color: '#FF3750', tos_url: 'https://monday.com/terms/' },
   { name: 'Canva',            sector: 'Productivity',   logo_color: '#00C4CC', tos_url: 'https://www.canva.com/policies/terms-of-service/' },
   { name: 'Grammarly',        sector: 'Productivity',   logo_color: '#15C39A', tos_url: 'https://www.grammarly.com/terms' },
   // Identity & Security tools
@@ -128,7 +128,7 @@ const COMPANIES = [
   { name: 'Palantir',         sector: 'Enterprise IT',  logo_color: '#101113', tos_url: 'https://www.palantir.com/terms-of-service/' },
   { name: 'UiPath',           sector: 'Enterprise IT',  logo_color: '#FA4616', tos_url: 'https://www.uipath.com/legal/trust-and-security/legal-terms' },
   { name: 'Snowflake',        sector: 'Cloud & SaaS',   logo_color: '#29B5E8', tos_url: 'https://www.snowflake.com/legal/terms-of-service/' },
-  { name: 'Databricks',       sector: 'Cloud & SaaS',   logo_color: '#FF3621', tos_url: 'https://www.databricks.com/legal/databricksterms' },
+  { name: 'Databricks',       sector: 'Cloud & SaaS',   logo_color: '#FF3621', tos_url: 'https://www.databricks.com/legal/master-cloud-services-agreement' },
   { name: 'Twitch',           sector: 'Media & Music',  logo_color: '#9146FF', tos_url: 'https://www.twitch.tv/p/en/legal/terms-of-service/' },
   { name: 'Zoom (Phone)',     sector: 'Cloud & SaaS',   logo_color: '#2D8CFF', tos_url: 'https://explore.zoom.us/en/terms/' },
   // Big Tech (additional)
@@ -231,7 +231,7 @@ const COMPANIES = [
   { name: 'ClickUp',           sector: 'Productivity',   logo_color: '#7B68EE', tos_url: 'https://clickup.com/terms' },
   { name: 'Basecamp',          sector: 'Productivity',   logo_color: '#1CC27D', tos_url: 'https://37signals.com/policies/terms' },
   { name: 'Todoist',           sector: 'Productivity',   logo_color: '#DB4035', tos_url: 'https://doist.com/terms-of-service' },
-  { name: 'Coda',              sector: 'Productivity',   logo_color: '#FF4F00', tos_url: 'https://coda.io/trust/legal' },
+  { name: 'Coda',              sector: 'Productivity',   logo_color: '#FF4F00', tos_url: 'https://www.superhuman.com/legal/terms' },
   // Enterprise IT (additional)
   { name: 'Workato',           sector: 'Enterprise IT',  logo_color: '#16335C', tos_url: 'https://www.workato.com/terms' },
   { name: 'Zoho',              sector: 'Enterprise IT',  logo_color: '#E42527', tos_url: 'https://www.zoho.com/terms.html' },
@@ -335,10 +335,11 @@ async function insertAnalysis(companyId: string, analysis: { score: string; item
 // ── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
-  // Deduplicate by name in case of list duplicates
-  const companies = COMPANIES.filter(
-    (c, i, arr) => arr.findIndex(x => x.name === c.name) === i
-  );
+  const only = process.env.ONLY?.split(',').map(s => s.trim().toLowerCase());
+
+  const companies = COMPANIES
+    .filter((c, i, arr) => arr.findIndex(x => x.name === c.name) === i)
+    .filter(c => !only || only.includes(c.name.toLowerCase()));
 
   const total = companies.length;
   let succeeded = 0;
