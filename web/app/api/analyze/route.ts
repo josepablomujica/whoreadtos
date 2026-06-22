@@ -3,6 +3,23 @@ import Anthropic from '@anthropic-ai/sdk';
 
 const client = new Anthropic();
 
+const RATE_LIMIT_MAX = 15;           // max requests per window per IP
+const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
+
+const ipRequestMap = new Map<string, { count: number; resetAt: number }>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = ipRequestMap.get(ip);
+  if (!entry || now > entry.resetAt) {
+    ipRequestMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return false;
+  }
+  if (entry.count >= RATE_LIMIT_MAX) return true;
+  entry.count++;
+  return false;
+}
+
 function stripHtml(html: string): string {
   return html
     .replace(/<script[\s\S]*?<\/script>/gi, ' ')
@@ -56,13 +73,23 @@ function extractJson(raw: string): unknown {
 }
 
 export async function POST(req: NextRequest) {
-  const origin = req.headers.get('origin') || '';
-
   const corsHeaders: Record<string, string> = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
   };
+
+  const ip =
+    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+    req.headers.get('x-real-ip') ??
+    'unknown';
+
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { error: 'Too many requests, please try again later.' },
+      { status: 429, headers: corsHeaders }
+    );
+  }
 
   let body: { text?: string; url?: string };
   try {
