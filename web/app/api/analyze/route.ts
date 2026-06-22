@@ -1,24 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
+import { Ratelimit } from '@upstash/ratelimit';
+import { Redis } from '@upstash/redis';
 
 const client = new Anthropic();
 
-const RATE_LIMIT_MAX = 15;           // max requests per window per IP
-const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
-
-const ipRequestMap = new Map<string, { count: number; resetAt: number }>();
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = ipRequestMap.get(ip);
-  if (!entry || now > entry.resetAt) {
-    ipRequestMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
-    return false;
-  }
-  if (entry.count >= RATE_LIMIT_MAX) return true;
-  entry.count++;
-  return false;
-}
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(15, '1 m'),
+  prefix: 'whoreadtos:rl',
+});
 
 function stripHtml(html: string): string {
   return html
@@ -84,7 +75,8 @@ export async function POST(req: NextRequest) {
     req.headers.get('x-real-ip') ??
     'unknown';
 
-  if (isRateLimited(ip)) {
+  const { success } = await ratelimit.limit(ip);
+  if (!success) {
     return NextResponse.json(
       { error: 'Too many requests, please try again later.' },
       { status: 429, headers: corsHeaders }
