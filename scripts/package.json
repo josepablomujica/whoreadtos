@@ -6,6 +6,7 @@
     "scrape": "tsx scraper.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.105.0",
     "@supabase/supabase-js": "^2.49.4"
   },
   "devDependencies": {
