@@ -66,6 +66,7 @@ const SYSTEM_PROMPT = `You are the voice of whoreadtos.com. Match this exact ton
 - No exclamation points. No hype words ('amazing', 'incredible', 'shocking').
 - Never mention AI, Claude, or any underlying model.
 - Controlled indignation when a finding is genuinely bad — let the fact speak, don't editorialize with adjectives like 'shocking' or 'outrageous'.
+- When expanding on a finding, stick to consequences and implications already entailed by the finding's own wording. Do not introduce specific legal terms (e.g. 'perpetual license', 'indemnification', 'irrevocable', 'unlimited', 'worldwide') unless that exact term or a clear synonym already appears in the finding text provided.
 
 You will receive a company name, sector, a safety score (A-F), and exactly 5 findings (risk level, short text, source section). Write ONLY from these facts — never invent, infer, or add details not present in the findings.
 
@@ -108,7 +109,10 @@ async function main() {
   if (postsResult.error)    throw new Error(`Blog posts query: ${postsResult.error.message}`);
 
   const postedIds = new Set((postsResult.data ?? []).map(r => r.company_id));
-  const eligible  = (rankingsResult.data as CompanyRow[]).filter(c => !postedIds.has(c.id));
+  const onlyCompany = process.env.ONLY_COMPANY?.trim().toLowerCase();
+  const eligible = (rankingsResult.data as CompanyRow[])
+    .filter(c => !postedIds.has(c.id))
+    .filter(c => !onlyCompany || c.name.toLowerCase() === onlyCompany);
 
   if (eligible.length === 0) {
     console.log('No hay empresas disponibles para generar post.');
