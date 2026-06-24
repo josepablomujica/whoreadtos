@@ -14,7 +14,15 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ── Company list ─────────────────────────────────────────────────────────────
 
-const COMPANIES = [
+type Company = {
+  name: string;
+  sector: string;
+  logo_color: string;
+  tos_url: string;
+  privacy_url?: string | null;
+};
+
+const COMPANIES: Company[] = [
   // Big Tech
   { name: 'Apple',            sector: 'Big Tech',       logo_color: '#555555', tos_url: 'https://www.apple.com/legal/internet-services/terms/site.html' },
   { name: 'Microsoft',        sector: 'Big Tech',       logo_color: '#00A4EF', tos_url: 'https://www.microsoft.com/en-us/servicesagreement/' },
@@ -267,7 +275,7 @@ function stripHtml(html: string): string {
     .trim();
 }
 
-async function fetchTosText(url: string): Promise<string> {
+async function fetchDocText(url: string): Promise<string> {
   const res = await fetch(url, {
     headers: {
       'User-Agent': 'Mozilla/5.0 (compatible; whoreadtos-bot/1.0)',
@@ -287,7 +295,7 @@ async function fetchTosText(url: string): Promise<string> {
 }
 
 async function analyzeText(text: string, url: string) {
-  const truncated = text.slice(0, 8000);
+  const truncated = text.slice(0, 30_000);
   const wordCount = truncated.split(/\s+/).filter(Boolean).length;
 
   const res = await fetch(ANALYZE_API, {
@@ -310,7 +318,7 @@ async function analyzeText(text: string, url: string) {
   return { ...data, wordCount };
 }
 
-async function upsertCompany(company: typeof COMPANIES[0]) {
+async function upsertCompany(company: Company) {
   const { data, error } = await supabase
     .from('companies')
     .upsert({ ...company }, { onConflict: 'name' })
@@ -337,9 +345,17 @@ async function insertAnalysis(companyId: string, analysis: { score: string; item
 async function main() {
   const only = process.env.ONLY?.split(',').map(s => s.trim().toLowerCase());
 
+  const { data: dbRows } = await supabase
+    .from('companies')
+    .select('name, privacy_url');
+  const privacyMap = new Map<string, string | null>(
+    (dbRows ?? []).map(r => [r.name, r.privacy_url as string | null])
+  );
+
   const companies = COMPANIES
     .filter((c, i, arr) => arr.findIndex(x => x.name === c.name) === i)
-    .filter(c => !only || only.includes(c.name.toLowerCase()));
+    .filter(c => !only || only.includes(c.name.toLowerCase()))
+    .map(c => ({ ...c, privacy_url: c.privacy_url ?? privacyMap.get(c.name) ?? null }));
 
   const total = companies.length;
   let succeeded = 0;
@@ -354,13 +370,29 @@ async function main() {
     process.stdout.write(`Analyzing ${label}...`);
 
     try {
-      const text = await fetchTosText(company.tos_url);
+      const tosText = await fetchDocText(company.tos_url);
 
-      if (text.length < 100) {
+      if (tosText.length < 100) {
         console.log(' ⚠ skipped (page too short, likely JS-rendered)');
         failed++;
       } else {
-        const analysis = await analyzeText(text, company.tos_url);
+        let privacyText: string | null = null;
+        if (company.privacy_url) {
+          try {
+            const raw = await fetchDocText(company.privacy_url);
+            if (raw.length >= 100) privacyText = raw;
+          } catch (err) {
+            const msg = err instanceof Error ? err.message : String(err);
+            process.stdout.write(` [privacy: ${msg}]`);
+          }
+        }
+
+        const tosSlice = tosText.slice(0, 15_000);
+        const combined = privacyText
+          ? `=== TERMS OF SERVICE ===\n${tosSlice}\n\n=== PRIVACY POLICY ===\n${privacyText.slice(0, 15_000)}`
+          : tosSlice;
+
+        const analysis = await analyzeText(combined, company.tos_url);
         const companyId = await upsertCompany(company);
         await insertAnalysis(companyId, analysis);
         console.log(` ✓ grade ${analysis.score}`);

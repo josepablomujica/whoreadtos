@@ -20,25 +20,18 @@ function stripHtml(html: string): string {
     .trim();
 }
 
-const SYSTEM_PROMPT = `You are a terms-of-service analyst. You ALWAYS respond with raw JSON only — no markdown, no prose, no code fences. Your entire response must be a single valid JSON object matching this exact schema:
+type Item = { risk: string; text: string; section: string };
 
-{
-  "score": "<one letter: A, B, C, D, or F>",
-  "items": [
-    { "risk": "<high|medium|positive>", "text": "<max 15 words>", "section": "<section name>" },
-    { "risk": "<high|medium|positive>", "text": "<max 15 words>", "section": "<section name>" },
-    { "risk": "<high|medium|positive>", "text": "<max 15 words>", "section": "<section name>" },
-    { "risk": "<high|medium|positive>", "text": "<max 15 words>", "section": "<section name>" },
-    { "risk": "<high|medium|positive>", "text": "<max 15 words>", "section": "<section name>" }
-  ]
+function makeSystemPrompt(itemCount: number): string {
+  const rows = Array.from({ length: itemCount }, () =>
+    `    { "risk": "<high|medium|positive>", "text": "<max 15 words>", "section": "<section name>" }`
+  ).join(',\n');
+  return `You are a terms-of-service analyst. You ALWAYS respond with raw JSON only — no markdown, no prose, no code fences. Your entire response must be a single valid JSON object matching this exact schema:\n\n{\n  "score": "<one letter: A, B, C, D, or F>",\n  "items": [\n${rows}\n  ]\n}\n\nThe "items" array must contain EXACTLY ${itemCount} objects. Never fewer, never more. Never add extra keys.`;
 }
 
-The "items" array must contain EXACTLY 5 objects. Never fewer, never more. Never add extra keys.`;
-
-const USER_PROMPT = `Analyze the terms of service below. Extract exactly 5 key points users must know before accepting. Grade overall safety A (safest) to F (riskiest). Reply with the JSON object only.
-
-Terms:
-`;
+function makeUserPrompt(itemCount: number): string {
+  return `Analyze the document below. Extract exactly ${itemCount} key points users must know before accepting. Grade overall safety A (safest) to F (riskiest). Reply with the JSON object only.\n\nDocument:\n`;
+}
 
 // Prefill assistant turn so the model cannot output any preamble
 const ASSISTANT_PREFILL = `{"score":"`;
@@ -61,6 +54,40 @@ function extractJson(raw: string): unknown {
     }
   }
   throw new Error('Malformed JSON in AI response: unmatched braces');
+}
+
+function splitDocuments(text: string): { tosText: string; privacyText: string } | null {
+  const TOS_SEP  = '=== TERMS OF SERVICE ===';
+  const PRIV_SEP = '=== PRIVACY POLICY ===';
+  const tosIdx  = text.indexOf(TOS_SEP);
+  const privIdx = text.indexOf(PRIV_SEP);
+  if (tosIdx === -1 || privIdx === -1) return null;
+  return {
+    tosText:     text.slice(tosIdx  + TOS_SEP.length,  privIdx).trim(),
+    privacyText: text.slice(privIdx + PRIV_SEP.length).trim(),
+  };
+}
+
+const SEVERITY: Record<string, number> = { A: 1, B: 2, C: 3, D: 4, F: 5 };
+
+function mostSevereScore(a: string, b: string): string {
+  return (SEVERITY[a] ?? 0) >= (SEVERITY[b] ?? 0) ? a : b;
+}
+
+async function callClaude(text: string, itemCount: number): Promise<{ score: string; items: Item[] }> {
+  const message = await client.messages.create({
+    model: 'claude-haiku-4-5',
+    max_tokens: 1024,
+    system: makeSystemPrompt(itemCount),
+    messages: [
+      { role: 'user',      content: makeUserPrompt(itemCount) + text },
+      { role: 'assistant', content: ASSISTANT_PREFILL },
+    ],
+  });
+  const rawContent = message.content[0];
+  if (rawContent.type !== 'text') throw new Error('Unexpected response format from AI');
+  const fullText = ASSISTANT_PREFILL + rawContent.text;
+  return extractJson(fullText) as { score: string; items: Item[] };
 }
 
 export async function POST(req: NextRequest) {
@@ -115,7 +142,7 @@ export async function POST(req: NextRequest) {
         );
       }
       const html = await fetched.text();
-      text = stripHtml(html).slice(0, 8000);
+      text = stripHtml(html).slice(0, 15_000);
     } catch {
       return NextResponse.json({ error: 'Could not fetch that URL. Try pasting the text directly.' }, { status: 422, headers: corsHeaders });
     }
@@ -128,39 +155,30 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const truncated = text.slice(0, 8000);
   const startTime = Date.now();
 
   try {
-    const message = await client.messages.create({
-      model: 'claude-haiku-4-5',
-      max_tokens: 1024,
-      system: SYSTEM_PROMPT,
-      messages: [
-        { role: 'user', content: USER_PROMPT + truncated },
-        { role: 'assistant', content: ASSISTANT_PREFILL },
-      ],
-    });
+    const dual = splitDocuments(text);
+    let score: string;
+    let items: Item[];
 
-    const rawContent = message.content[0];
-    if (rawContent.type !== 'text') {
-      throw new Error('Unexpected response format from AI');
+    if (dual) {
+      const [tosResult, privacyResult] = await Promise.all([
+        callClaude(dual.tosText.slice(0, 15_000), 3),
+        callClaude(dual.privacyText.slice(0, 15_000), 2),
+      ]);
+      score = mostSevereScore(tosResult.score, privacyResult.score);
+      items = [...tosResult.items, ...privacyResult.items];
+    } else {
+      const result = await callClaude(text.slice(0, 15_000), 5);
+      score = result.score;
+      items = result.items;
     }
 
-    // Reconstruct the full JSON: prefill + model continuation
-    const fullText = ASSISTANT_PREFILL + rawContent.text;
-
-    const parsed = extractJson(fullText);
-
-    const result = parsed as {
-      score: string;
-      items: Array<{ risk: string; text: string; section: string }>;
-      analysis_time_ms?: number;
-    };
-
-    result.analysis_time_ms = Date.now() - startTime;
-
-    return NextResponse.json(result, { headers: corsHeaders });
+    return NextResponse.json(
+      { score, items, analysis_time_ms: Date.now() - startTime },
+      { headers: corsHeaders }
+    );
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Analysis failed';
     return NextResponse.json(
