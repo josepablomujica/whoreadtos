@@ -2,6 +2,11 @@ name: Generate Blog Post
 
 on:
   workflow_dispatch:
+    inputs:
+      only_company:
+        description: 'Nombre exacto de la empresa (opcional, deja vacío para random)'
+        required: false
+        type: string
 
 jobs:
   generate:
@@ -26,3 +31,4 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ONLY_COMPANY: ${{ inputs.only_company }}
