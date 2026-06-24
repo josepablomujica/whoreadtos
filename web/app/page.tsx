@@ -1,27 +1,12 @@
 import Link from 'next/link';
 import AnalyzeForm from './AnalyzeForm';
+import Nav from '@/app/components/Nav';
 
 export default function Home() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900" style={{ fontFamily: 'system-ui, sans-serif' }}>
-      {/* Nav */}
-      <nav className="border-b border-gray-100">
-        <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <span className="font-bold text-[#1D9E75] text-lg tracking-tight">Who Read ToS</span>
-            <Link href="/rankings" className="text-sm font-medium text-gray-600 hover:text-[#1D9E75] transition-colors">
-              Rankings
-            </Link>
-          </div>
-          <a
-            href="#"
-            className="hidden sm:block bg-[#1D9E75] text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-[#179165] transition-colors"
-          >
-            Add to Chrome — it&apos;s free
-          </a>
-        </div>
-      </nav>
+      <Nav hideCtaOnMobile ctaText="Add to Chrome — it's free" />
 
       {/* Hero */}
       <section className="max-w-5xl mx-auto px-6 pt-20 pb-16 text-center">
