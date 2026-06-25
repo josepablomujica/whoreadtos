@@ -184,8 +184,8 @@ export default async function CompanyDetail(
             ← Back to rankings
           </Link>
           <p className="text-xs text-gray-400">
-            This analysis is free.{' '}
-            <KofiLink>Buy us a coffee ☕</KofiLink>
+            This is free and we don&apos;t sell your data. If it helped, want to{' '}
+            <KofiLink>buy us a coffee?</KofiLink>
           </p>
         </div>
       </main>

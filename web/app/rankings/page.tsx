@@ -68,8 +68,8 @@ export default function Rankings() {
             {loading ? 'Loading…' : `${filtered.length} companies analyzed — graded A (safest) to F (riskiest)`}
           </p>
           <p className="mt-1 text-xs text-gray-400">
-            Free forever — kept alive by{' '}
-            <KofiLink>coffee ☕</KofiLink>
+            This is free and we don&apos;t sell your data. If it helped, want to{' '}
+            <KofiLink>buy us a coffee?</KofiLink>
           </p>
         </div>
 
