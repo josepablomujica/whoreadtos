@@ -96,7 +96,7 @@ export default async function BlogPost(
       <footer className="max-w-3xl mx-auto px-6 py-8 flex items-center justify-between text-sm text-gray-400 border-t border-gray-100 mt-6">
         <Link href="/" className="hover:text-[#1D9E75] transition-colors">← Who Read ToS</Link>
         <a href="https://ko-fi.com/wereadtos" target="_blank" rel="noopener noreferrer" className="hover:text-[#1D9E75]">
-          ☕ Buy us a coffee
+          This is free and we don&apos;t sell your data. If it helped, want to buy us a coffee?
         </a>
       </footer>
     </div>

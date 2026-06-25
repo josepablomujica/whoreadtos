@@ -1,5 +1,5 @@
 export default function KofiLink({
-  children = 'Invítanos un café ☕',
+  children = "This is free and we don't sell your data. If it helped, want to buy us a coffee?",
   className = 'hover:text-[#1D9E75] transition-colors',
 }: {
   children?: React.ReactNode;

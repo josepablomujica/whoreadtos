@@ -102,7 +102,7 @@ export default function Home() {
             rel="noopener noreferrer"
             className="text-[#1D9E75] hover:underline"
           >
-            ☕ Buy me a coffee
+            This is free and we don&apos;t sell your data. If it helped, want to buy us a coffee?
           </a>
         </div>
       </footer>
