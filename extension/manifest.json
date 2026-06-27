@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "whoreadtos",
   "version": "1.0.1",
-  "description": "Who reads TOS? We do. Instant AI analysis of Terms of Service pages.",
+  "description": "Who reads TOS? We do. Instant breakdown of Terms of Service pages, in plain language.",
   "permissions": [
     "activeTab",
     "scripting",
