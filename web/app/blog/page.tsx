@@ -3,6 +3,8 @@ import Nav from '@/app/components/Nav';
 import { supabase } from '@/lib/supabase';
 import type { Metadata } from 'next';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Blog — Who Read ToS',
   description: 'Plain-language breakdowns of Terms of Service and Privacy Policies.',

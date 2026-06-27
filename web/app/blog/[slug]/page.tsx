@@ -5,6 +5,8 @@ import { supabase } from '@/lib/supabase';
 import ReactMarkdown from 'react-markdown';
 import type { Metadata } from 'next';
 
+export const dynamic = 'force-dynamic';
+
 interface Post {
   title: string;
   content: string;
