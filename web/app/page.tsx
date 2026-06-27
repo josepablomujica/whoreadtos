@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import AnalyzeForm from './AnalyzeForm';
 import Nav from '@/app/components/Nav';
+import KofiLink from '@/app/components/KofiLink';
 
 export default function Home() {
 
@@ -96,14 +97,7 @@ export default function Home() {
           <Link href="/terms" className="hover:text-[#1D9E75] transition-colors">Terms</Link>
           <Link href="/privacy" className="hover:text-[#1D9E75] transition-colors">Privacy</Link>
           <Link href="/contact" className="hover:text-[#1D9E75] transition-colors">Contact</Link>
-          <a
-            href="https://ko-fi.com/wereadtos"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[#1D9E75] hover:underline"
-          >
-            This is free and we don&apos;t sell your data. If it helped, want to buy us a coffee?
-          </a>
+          <span>This is free and we don&apos;t sell your data. If it helped,{' '}<KofiLink /></span>
         </div>
       </footer>
     </div>
