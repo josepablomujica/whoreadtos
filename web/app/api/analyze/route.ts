@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
 import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
+import { createClient } from '@supabase/supabase-js';
+import { createHash } from 'crypto';
 
 const client = new Anthropic();
 
@@ -10,6 +12,25 @@ const ratelimit = new Ratelimit({
   limiter: Ratelimit.slidingWindow(15, '1 m'),
   prefix: 'whoreadtos:rl',
 });
+
+const supabase = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_ANON_KEY!
+);
+
+const CACHE_TTL_DAYS = 30;
+
+function normalizeDomain(url: string): string | null {
+  try {
+    const hostname = new URL(url).hostname.replace(/^www\./, '').toLowerCase();
+    // Only allow valid hostname chars (letters, digits, dots, hyphens).
+    // Rejects anything that could alter the PostgREST .or() filter string.
+    if (!/^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$/.test(hostname)) return null;
+    return hostname;
+  } catch {
+    return null;
+  }
+}
 
 function stripHtml(html: string): string {
   return html
@@ -155,10 +176,66 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // ── Cache lookup ──────────────────────────────────────────────────────────
+  const normalizedText = text.slice(0, 15_000);
+  const contentHash    = createHash('sha256').update(normalizedText).digest('hex');
+  const cutoff         = new Date(Date.now() - CACHE_TTL_DAYS * 24 * 60 * 60 * 1000).toISOString();
+
+  // 1. Known company: match URL domain against companies.tos_url / companies.privacy_url,
+  //    then look for a fresh analysis in the official analyses table.
+  if (url) {
+    const domain = normalizeDomain(url);
+    if (domain) {
+      const { data: company } = await supabase
+        .from('companies')
+        .select('id')
+        .or(`tos_url.ilike.%${domain}%,privacy_url.ilike.%${domain}%`)
+        .limit(1)
+        .maybeSingle();
+
+      if (company) {
+        const { data: hit } = await supabase
+          .from('analyses')
+          .select('score, items')
+          .eq('company_id', company.id)
+          .gte('analyzed_at', cutoff)
+          .order('analyzed_at', { ascending: false })
+          .limit(1)
+          .maybeSingle();
+
+        if (hit) {
+          return NextResponse.json(
+            { score: hit.score, items: hit.items, cached: true },
+            { headers: corsHeaders }
+          );
+        }
+      }
+    }
+  }
+
+  // 2. Adhoc cache: SHA-256 of the normalized text, valid for CACHE_TTL_DAYS.
+  {
+    const { data: hit } = await supabase
+      .from('adhoc_analyses')
+      .select('score, items')
+      .eq('content_hash', contentHash)
+      .gte('analyzed_at', cutoff)
+      .limit(1)
+      .maybeSingle();
+
+    if (hit) {
+      return NextResponse.json(
+        { score: hit.score, items: hit.items, cached: true },
+        { headers: corsHeaders }
+      );
+    }
+  }
+  // ─────────────────────────────────────────────────────────────────────────
+
   const startTime = Date.now();
 
   try {
-    const dual = splitDocuments(text);
+    const dual = splitDocuments(normalizedText);
     let score: string;
     let items: Item[];
 
@@ -170,10 +247,20 @@ export async function POST(req: NextRequest) {
       score = mostSevereScore(tosResult.score, privacyResult.score);
       items = [...tosResult.items, ...privacyResult.items];
     } else {
-      const result = await callClaude(text.slice(0, 15_000), 5);
+      const result = await callClaude(normalizedText, 5);
       score = result.score;
       items = result.items;
     }
+
+    // Persist to adhoc cache so the next identical request is free.
+    // Non-critical: ignore insert errors to avoid failing the response.
+    await supabase.from('adhoc_analyses').insert({
+      source_url:   url ?? null,
+      content_hash: contentHash,
+      score,
+      items,
+      word_count:   normalizedText.trim().split(/\s+/).length,
+    });
 
     return NextResponse.json(
       { score, items, analysis_time_ms: Date.now() - startTime },
