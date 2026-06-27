@@ -91,14 +91,28 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-400">
-        <span>Free forever. No ads. No tracking. No irony.</span>
-        <div className="flex items-center gap-4">
-          <Link href="/terms" className="hover:text-[#1D9E75] transition-colors">Terms</Link>
-          <Link href="/privacy" className="hover:text-[#1D9E75] transition-colors">Privacy</Link>
-          <Link href="/contact" className="hover:text-[#1D9E75] transition-colors">Contact</Link>
-          <span>This is free and we don&apos;t sell your data. If it helped,{' '}<KofiLink /></span>
+      <footer className="max-w-5xl mx-auto px-6 py-8 flex flex-col items-center gap-4 text-sm text-gray-400">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 w-full">
+          <span>Free forever. No ads. No tracking. No irony.</span>
+          <div className="flex items-center gap-4">
+            <Link href="/terms" className="hover:text-[#1D9E75] transition-colors">Terms</Link>
+            <Link href="/privacy" className="hover:text-[#1D9E75] transition-colors">Privacy</Link>
+            <Link href="/contact" className="hover:text-[#1D9E75] transition-colors">Contact</Link>
+            <span>This is free and we don&apos;t sell your data. If it helped,{' '}<KofiLink /></span>
+          </div>
         </div>
+        <a
+          href="https://www.producthunt.com/products/who-read-tos?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-who-read-tos"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            alt="Who Read ToS - Who reads Terms of Service? We do. | Product Hunt"
+            width="250"
+            height="54"
+            src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1176912&theme=light&t=1782587213576"
+          />
+        </a>
       </footer>
     </div>
   );
