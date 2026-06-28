@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "scrape": "tsx scraper.ts"
+    "scrape": "tsx scraper.ts",
+    "generate-blog-post": "tsx generate-blog-post.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.105.0",

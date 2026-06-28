@@ -102,16 +102,18 @@ async function main() {
       .not('score', 'is', null),
     supabase
       .from('blog_posts')
-      .select('company_id'),
+      .select('id, company_id'),
   ]);
 
   if (rankingsResult.error) throw new Error(`Rankings query: ${rankingsResult.error.message}`);
   if (postsResult.error)    throw new Error(`Blog posts query: ${postsResult.error.message}`);
 
-  const postedIds = new Set((postsResult.data ?? []).map(r => r.company_id));
+  const postedIds   = new Set((postsResult.data ?? []).map(r => r.company_id));
   const onlyCompany = process.env.ONLY_COMPANY?.trim().toLowerCase();
+  const regenerate  = process.env.REGENERATE === '1';
+
   const eligible = (rankingsResult.data as CompanyRow[])
-    .filter(c => !postedIds.has(c.id))
+    .filter(c => regenerate || !postedIds.has(c.id))
     .filter(c => !onlyCompany || c.name.toLowerCase() === onlyCompany);
 
   if (eligible.length === 0) {
@@ -121,7 +123,7 @@ async function main() {
 
   // 2. Pick one at random
   const company = eligible[Math.floor(Math.random() * eligible.length)];
-  console.log(`\nGenerating post for: ${company.name} (grade ${company.score})\n`);
+  console.log(`\n${regenerate ? 'Regenerating' : 'Generating'} post for: ${company.name} (grade ${company.score})\n`);
 
   // 3. Generate post with Claude Haiku
   const message = await anthropic.messages.create({
@@ -153,18 +155,36 @@ async function main() {
     console.warn(`⚠ Validation failed — title: "${parsed.title?.slice(0, 60)}", content length: ${finalContent.length}`);
   }
 
-  // 6. Insert into blog_posts (service_role key bypasses RLS)
-  const { error: insertError } = await supabase.from('blog_posts').insert({
-    company_id:   company.id,
-    analysis_id:  company.analysis_id,
-    slug,
-    title:        parsed.title,
-    content:      finalContent,
-    status,
-    published_at: valid ? new Date().toISOString() : null,
-  });
+  // 6. Insert or update blog_posts
+  let dbError: { message: string } | null;
+  if (regenerate) {
+    const existing = (postsResult.data ?? []).find(r => r.company_id === company.id);
+    if (!existing) throw new Error(`REGENERATE=1 but no existing post found for ${company.name}`);
+    const { error } = await supabase
+      .from('blog_posts')
+      .update({
+        analysis_id:  company.analysis_id,
+        title:        parsed.title,
+        content:      finalContent,
+        status,
+        published_at: valid ? new Date().toISOString() : null,
+      })
+      .eq('id', existing.id);
+    dbError = error;
+  } else {
+    const { error } = await supabase.from('blog_posts').insert({
+      company_id:   company.id,
+      analysis_id:  company.analysis_id,
+      slug,
+      title:        parsed.title,
+      content:      finalContent,
+      status,
+      published_at: valid ? new Date().toISOString() : null,
+    });
+    dbError = error;
+  }
 
-  if (insertError) throw new Error(`Insert failed: ${insertError.message}`);
+  if (dbError) throw new Error(`${regenerate ? 'Update' : 'Insert'} failed: ${dbError.message}`);
 
   console.log(`✓ ${status}: "${parsed.title}"`);
   console.log(`  slug:    ${slug}`);
