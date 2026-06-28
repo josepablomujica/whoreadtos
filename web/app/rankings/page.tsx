@@ -34,6 +34,7 @@ export default function Rankings() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sector, setSector] = useState('All');
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
     fetch('/api/companies')
@@ -52,9 +53,9 @@ export default function Rankings() {
 
   const sectors = ['All', ...Array.from(new Set(companies.map(c => c.sector))).sort()];
 
-  const filtered = sector === 'All'
-    ? companies
-    : companies.filter(c => c.sector === sector);
+  const filtered = companies
+    .filter(c => sector === 'All' || c.sector === sector)
+    .filter(c => c.name.toLowerCase().includes(query.toLowerCase()));
 
   return (
     <div className="min-h-screen bg-white text-gray-900" style={{ fontFamily: 'system-ui, sans-serif' }}>
@@ -72,6 +73,19 @@ export default function Rankings() {
             <KofiLink />
           </p>
         </div>
+
+        {/* Search */}
+        {!loading && !error && (
+          <div className="mb-4">
+            <input
+              type="text"
+              placeholder="Search companies…"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              className="w-full sm:w-72 px-4 py-2 rounded-lg border border-gray-200 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1D9E75] focus:border-transparent"
+            />
+          </div>
+        )}
 
         {/* Sector pills */}
         {!loading && !error && (
@@ -165,7 +179,9 @@ export default function Rankings() {
             </table>
 
             {filtered.length === 0 && (
-              <div className="text-center py-10 text-gray-400">No companies in this sector.</div>
+              <div className="text-center py-10 text-gray-400">
+                {query ? 'No companies match your search.' : 'No companies in this sector.'}
+              </div>
             )}
           </div>
         )}
