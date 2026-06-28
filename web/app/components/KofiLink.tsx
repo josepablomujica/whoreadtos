@@ -1,6 +1,6 @@
 export default function KofiLink({
-  children = "This is free and we don't sell your data. If it helped, want to buy us a coffee?",
-  className = 'hover:text-[#1D9E75] transition-colors',
+  children = '☕ buy us a coffee?',
+  className = 'text-[#1D9E75] hover:underline transition-colors',
 }: {
   children?: React.ReactNode;
   className?: string;

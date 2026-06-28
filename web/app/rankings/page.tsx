@@ -68,8 +68,8 @@ export default function Rankings() {
             {loading ? 'Loading…' : `${filtered.length} companies analyzed — graded A (safest) to F (riskiest)`}
           </p>
           <p className="mt-1 text-xs text-gray-400">
-            This is free and we don&apos;t sell your data. If it helped, want to{' '}
-            <KofiLink>buy us a coffee?</KofiLink>
+            This is free and we don&apos;t sell your data. If it helped,{' '}
+            <KofiLink />
           </p>
         </div>
 
@@ -173,9 +173,7 @@ export default function Rankings() {
 
       <footer className="max-w-5xl mx-auto px-6 py-8 flex items-center justify-between text-sm text-gray-400 border-t border-gray-100 mt-10">
         <Link href="/" className="hover:text-[#1D9E75] transition-colors">← Who Read ToS</Link>
-        <a href="https://ko-fi.com/wereadtos" target="_blank" rel="noopener noreferrer" className="hover:text-[#1D9E75]">
-          This is free and we don&apos;t sell your data. If it helped, want to buy us a coffee?
-        </a>
+        <span>This is free and we don&apos;t sell your data. If it helped,{' '}<KofiLink /></span>
       </footer>
     </div>
   );

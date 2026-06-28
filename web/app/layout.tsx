@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Who Read ToS — Who reads TOS? We do.",
-  description: "Instant AI analysis of Terms of Service. See what you're agreeing to in plain English.",
+  description: "Instant breakdown of Terms of Service. See what you're agreeing to in plain English.",
 };
 
 export default function RootLayout({

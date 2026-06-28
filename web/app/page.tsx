@@ -49,7 +49,7 @@ export default function Home() {
       <section className="bg-gray-50 border-y border-gray-100">
         <div className="max-w-5xl mx-auto px-6 py-12 grid sm:grid-cols-3 gap-8 text-center">
           {[
-            { icon: '⚡', title: 'Instant', desc: 'Results in under 2 seconds on any TOS page' },
+            { icon: '⚡', title: 'Instant', desc: 'Instant results on any TOS page' },
             { icon: '🔒', title: 'Private', desc: 'Nothing is stored. No account needed. Ever.' },
             { icon: '🆓', title: 'Free', desc: 'No paywalls. No premium tier. Just install and go.' },
           ].map((f) => (

@@ -184,8 +184,8 @@ export default function AnalyzeForm() {
           </ul>
 
           <p className="mt-5 text-xs text-center text-gray-400">
-            This is free and we don&apos;t sell your data. If it helped, want to{' '}
-            <KofiLink>buy us a coffee?</KofiLink>
+            This is free and we don&apos;t sell your data. If it helped,{' '}
+            <KofiLink />
           </p>
 
           <button
