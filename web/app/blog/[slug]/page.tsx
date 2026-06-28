@@ -12,13 +12,14 @@ interface Post {
   title: string;
   content: string;
   published_at: string | null;
+  analyses: { score: string } | null;
   companies: { name: string; sector: string; logo_color: string } | null;
 }
 
 async function getPost(slug: string): Promise<Post | null> {
   const { data, error } = await supabase
     .from('blog_posts')
-    .select('title, content, published_at, companies(name, sector, logo_color)')
+    .select('title, content, published_at, analyses!analysis_id(score), companies(name, sector, logo_color)')
     .eq('slug', slug)
     .eq('status', 'published')
     .single();
@@ -38,6 +39,16 @@ export async function generateMetadata(
     description: `${post.companies?.name ?? ''} Terms of Service and Privacy Policy analysis.`,
   };
 }
+
+const GRADE_BG: Record<string, string> = {
+  A: 'bg-[#1D9E75]', B: 'bg-[#7CBE42]', C: 'bg-[#F5C518]', D: 'bg-[#F07C28]', F: 'bg-[#E53E3E]',
+};
+const GRADE_TEXT: Record<string, string> = {
+  A: 'text-white', B: 'text-white', C: 'text-gray-900', D: 'text-white', F: 'text-white',
+};
+const GRADE_LABEL: Record<string, string> = {
+  A: 'Very safe', B: 'Safe', C: 'Moderate', D: 'Risky', F: 'Very risky',
+};
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('en-US', {
@@ -70,15 +81,25 @@ export default async function BlogPost(
           style={{ backgroundColor: post.companies?.logo_color ?? '#1D9E75' }}
         />
 
-        <div className="mb-8">
-          <p className="text-sm text-gray-400 mb-2">
-            {post.companies?.name} · {post.companies?.sector}
-          </p>
-          <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 leading-tight">
-            {post.title}
-          </h1>
-          {post.published_at && (
-            <p className="text-sm text-gray-400 mt-3">{formatDate(post.published_at)}</p>
+        <div className="flex items-start justify-between gap-6 mb-8">
+          <div>
+            <p className="text-sm text-gray-400 mb-2">
+              {post.companies?.name} · {post.companies?.sector}
+            </p>
+            <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 leading-tight">
+              {post.title}
+            </h1>
+            {post.published_at && (
+              <p className="text-sm text-gray-400 mt-3">{formatDate(post.published_at)}</p>
+            )}
+          </div>
+          {post.analyses?.score && (
+            <div className="flex flex-col items-center gap-1 flex-shrink-0">
+              <div className={`w-20 h-20 rounded-2xl flex items-center justify-center font-extrabold text-4xl ${GRADE_BG[post.analyses.score] ?? 'bg-gray-300'} ${GRADE_TEXT[post.analyses.score] ?? 'text-white'}`}>
+                {post.analyses.score}
+              </div>
+              <span className="text-xs text-gray-400">{GRADE_LABEL[post.analyses.score]}</span>
+            </div>
           )}
         </div>
 
