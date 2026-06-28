@@ -275,7 +275,7 @@ function stripHtml(html: string): string {
     .trim();
 }
 
-async function fetchDocText(url: string): Promise<string> {
+async function fetchHtml(url: string): Promise<string> {
   const res = await fetch(url, {
     headers: {
       'User-Agent': 'Mozilla/5.0 (compatible; whoreadtos-bot/1.0)',
@@ -291,7 +291,47 @@ async function fetchDocText(url: string): Promise<string> {
 
   if (!contentType.includes('text')) throw new Error('Non-text response');
 
-  return stripHtml(html);
+  return html;
+}
+
+async function fetchDocText(url: string): Promise<string> {
+  return stripHtml(await fetchHtml(url));
+}
+
+const PRIVACY_TERMS = [
+  'privacy policy',
+  'privacy notice',
+  'privacy statement',
+  'data privacy',
+  'privacy',
+];
+
+function discoverPrivacyUrl(html: string, baseUrl: string): string | null {
+  const anchorRe = /<a\b([^>]*)>([\s\S]*?)<\/a>/gi;
+  let m: RegExpExecArray | null;
+  const links: Array<{ href: string; text: string }> = [];
+
+  while ((m = anchorRe.exec(html)) !== null) {
+    const hrefMatch = /href=["']([^"']+)["']/i.exec(m[1]);
+    if (!hrefMatch) continue;
+    const href = hrefMatch[1].trim();
+    if (!href || /^(javascript:|mailto:|#)/i.test(href)) continue;
+    const text = m[2].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
+    links.push({ href, text });
+  }
+
+  for (const term of PRIVACY_TERMS) {
+    const hyphen = term.replace(/\s+/g, '-');
+    const under  = term.replace(/\s+/g, '_');
+    for (const { href, text } of links) {
+      const h = href.toLowerCase();
+      if (text.includes(term) || h.includes(hyphen) || h.includes(under)) {
+        try { return new URL(href, baseUrl).href; } catch { /* URL inválida, skip */ }
+      }
+    }
+  }
+
+  return null;
 }
 
 async function analyzeText(text: string, url: string) {
@@ -352,10 +392,19 @@ async function main() {
     (dbRows ?? []).map(r => [r.name, r.privacy_url as string | null])
   );
 
+  type PrivacySource = 'array' | 'db' | 'discovered' | 'none';
   const companies = COMPANIES
     .filter((c, i, arr) => arr.findIndex(x => x.name === c.name) === i)
     .filter(c => !only || only.includes(c.name.toLowerCase()))
-    .map(c => ({ ...c, privacy_url: c.privacy_url ?? privacyMap.get(c.name) ?? null }));
+    .map(c => {
+      const fromArray = c.privacy_url ?? null;
+      const fromDb    = privacyMap.get(c.name) ?? null;
+      return {
+        ...c,
+        privacy_url:   fromArray ?? fromDb ?? null,
+        privacySource: (fromArray ? 'array' : fromDb ? 'db' : 'none') as PrivacySource,
+      };
+    });
 
   const total = companies.length;
   let succeeded = 0;
@@ -370,20 +419,40 @@ async function main() {
     process.stdout.write(`Analyzing ${label}...`);
 
     try {
-      const tosText = await fetchDocText(company.tos_url);
+      const tosHtml = await fetchHtml(company.tos_url);
+      const tosText = stripHtml(tosHtml);
 
       if (tosText.length < 100) {
         console.log(' ⚠ skipped (page too short, likely JS-rendered)');
         failed++;
       } else {
+        let privacyUrl    = company.privacy_url;
+        let privacySource: PrivacySource = company.privacySource;
+
+        if (!privacyUrl) {
+          const discovered = discoverPrivacyUrl(tosHtml, company.tos_url);
+          if (discovered) {
+            privacyUrl    = discovered;
+            privacySource = 'discovered';
+          }
+        }
+
+        if (privacySource === 'discovered') {
+          process.stdout.write(` [privacy: discovered → ${privacyUrl}]`);
+        } else if (privacySource !== 'none') {
+          process.stdout.write(` [privacy: ${privacySource}]`);
+        } else {
+          process.stdout.write(' [privacy: not found — manual review]');
+        }
+
         let privacyText: string | null = null;
-        if (company.privacy_url) {
+        if (privacyUrl) {
           try {
-            const raw = await fetchDocText(company.privacy_url);
+            const raw = await fetchDocText(privacyUrl);
             if (raw.length >= 100) privacyText = raw;
           } catch (err) {
             const msg = err instanceof Error ? err.message : String(err);
-            process.stdout.write(` [privacy: ${msg}]`);
+            process.stdout.write(` [privacy fetch: ${msg}]`);
           }
         }
 
@@ -392,8 +461,9 @@ async function main() {
           ? `=== TERMS OF SERVICE ===\n${tosSlice}\n\n=== PRIVACY POLICY ===\n${privacyText.slice(0, 15_000)}`
           : tosSlice;
 
-        const analysis = await analyzeText(combined, company.tos_url);
-        const companyId = await upsertCompany(company);
+        const analysis  = await analyzeText(combined, company.tos_url);
+        const { privacySource: _ps, ...companyData } = company;
+        const companyId = await upsertCompany({ ...companyData, privacy_url: privacyUrl });
         await insertAnalysis(companyId, analysis);
         console.log(` ✓ grade ${analysis.score}`);
         succeeded++;
