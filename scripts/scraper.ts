@@ -89,7 +89,7 @@ const COMPANIES: Company[] = [
   { name: 'LinkedIn',         sector: 'Social Media',   logo_color: '#0A66C2', tos_url: 'https://www.linkedin.com/legal/user-agreement' },
   // Enterprise IT
   { name: 'Oracle',           sector: 'Enterprise IT',  logo_color: '#C74634', tos_url: 'https://www.oracle.com/legal/terms.html' },
-  { name: 'IBM',              sector: 'Enterprise IT',  logo_color: '#1F70C1', tos_url: 'https://www.ibm.com/us-en/legal/terms-of-use' },
+  { name: 'IBM',              sector: 'Enterprise IT',  logo_color: '#1F70C1', tos_url: 'https://www.ibm.com/us-en/legal/terms-of-use', privacy_url: 'https://www.ibm.com/us-en/privacy' },
   { name: 'Dell Technologies',sector: 'Enterprise IT',  logo_color: '#007DB8', tos_url: 'https://www.dell.com/learn/us/en/uscorp1/terms-conditions' },
   { name: 'HP Inc',           sector: 'Enterprise IT',  logo_color: '#0096D6', tos_url: 'https://www.hp.com/us-en/privacy/privacy.html' },
   { name: 'Akamai',           sector: 'Enterprise IT',  logo_color: '#009BDE', tos_url: 'https://www.akamai.com/legal/compliance/acceptable-use-policy' },
@@ -162,7 +162,7 @@ const COMPANIES: Company[] = [
   { name: 'McAfee',            sector: 'Cybersecurity',  logo_color: '#C01818', tos_url: 'https://home.mcafee.com/supportpages/termsandconditions.aspx' },
   { name: 'Bitdefender',       sector: 'Cybersecurity',  logo_color: '#ED1C24', tos_url: 'https://www.bitdefender.com/en-us/site/view/subscription-agreement-and-terms-of-services-for-home-user-solutions' },
   { name: 'Kaspersky',         sector: 'Cybersecurity',  logo_color: '#006D5C', tos_url: 'https://www.kaspersky.com/terms-of-use' },
-  { name: 'Proofpoint',        sector: 'Cybersecurity',  logo_color: '#3B3E44', tos_url: 'https://login.proofpoint.com/termsconditions/' },
+  { name: 'Proofpoint',        sector: 'Cybersecurity',  logo_color: '#3B3E44', tos_url: 'https://login.proofpoint.com/termsconditions/', privacy_url: 'https://www.proofpoint.com/us/legal/privacy-policy' },
   { name: 'Trend Micro',       sector: 'Cybersecurity',  logo_color: '#D71920', tos_url: 'https://www.trendmicro.com/en_us/about/legal/terms-of-use.html' },
   { name: 'Proton',            sector: 'Cybersecurity',  logo_color: '#6D4AFF', tos_url: 'https://proton.me/legal/terms' },
   { name: 'DuckDuckGo',        sector: 'Cybersecurity',  logo_color: '#DE5833', tos_url: 'https://duckduckgo.com/terms' },
@@ -209,7 +209,7 @@ const COMPANIES: Company[] = [
   { name: 'Wise',              sector: 'Fintech',        logo_color: '#00B9FF', tos_url: 'https://wise.com/us/legal/terms-of-use-us2', privacy_url: 'https://wise.com/gb/legal/privacy-notices' },
   { name: 'Revolut',           sector: 'Fintech',        logo_color: '#0075EB', tos_url: 'https://www.revolut.com/en-US/legal/terms/' },
   { name: 'Affirm',            sector: 'Fintech',        logo_color: '#000000', tos_url: 'https://www.affirm.com/disclosures' },
-  { name: 'Klarna',            sector: 'Fintech',        logo_color: '#FFB3C7', tos_url: 'https://www.klarna.com/us/terms-of-use/' },
+  { name: 'Klarna',            sector: 'Fintech',        logo_color: '#FFB3C7', tos_url: 'https://www.klarna.com/us/terms-of-use/', privacy_url: 'https://www.klarna.com/us/privacy/' },
   { name: 'Plaid',             sector: 'Fintech',        logo_color: '#000000', tos_url: 'https://plaid.com/legal/terms-of-use/' },
   { name: 'Chime',             sector: 'Fintech',        logo_color: '#00D4AA', tos_url: 'https://www.chime.com/policies/chime/chime-user-agreement/' },
   { name: 'SoFi',              sector: 'Fintech',        logo_color: '#9D5BD2', tos_url: 'https://www.sofi.com/terms-of-use/' },
@@ -234,7 +234,7 @@ const COMPANIES: Company[] = [
   { name: 'PlayStation',       sector: 'Gaming',         logo_color: '#003087', tos_url: 'https://www.playstation.com/en-us/legal/terms-of-service/' },
   { name: 'Xbox',              sector: 'Gaming',         logo_color: '#107C10', tos_url: 'https://www.xbox.com/en-US/legal/xboxapptou' },
   // Productivity (additional)
-  { name: 'Trello',            sector: 'Productivity',   logo_color: '#0052CC', tos_url: 'https://www.atlassian.com/legal/atlassian-customer-agreement' },
+  { name: 'Trello',            sector: 'Productivity',   logo_color: '#0052CC', tos_url: 'https://www.atlassian.com/legal/atlassian-customer-agreement', privacy_url: 'https://www.atlassian.com/legal/privacy-policy' },
   { name: 'Evernote',          sector: 'Productivity',   logo_color: '#00A82D', tos_url: 'https://evernote.com/legal/terms-of-service' },
   { name: 'ClickUp',           sector: 'Productivity',   logo_color: '#7B68EE', tos_url: 'https://clickup.com/terms' },
   { name: 'Basecamp',          sector: 'Productivity',   logo_color: '#1CC27D', tos_url: 'https://37signals.com/policies/terms' },
@@ -312,7 +312,7 @@ function discoverPrivacyUrl(html: string, baseUrl: string): string | null {
   const links: Array<{ href: string; text: string }> = [];
 
   while ((m = anchorRe.exec(html)) !== null) {
-    const hrefMatch = /href=["']([^"']+)["']/i.exec(m[1]);
+    const hrefMatch = /href=["']?([^"'\s>]+)["']?/i.exec(m[1]);
     if (!hrefMatch) continue;
     const href = hrefMatch[1].trim();
     if (!href || /^(javascript:|mailto:|#)/i.test(href)) continue;
