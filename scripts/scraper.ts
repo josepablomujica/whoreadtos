@@ -159,7 +159,7 @@ const COMPANIES: Company[] = [
   { name: 'Tenable',           sector: 'Cybersecurity',  logo_color: '#00B4E0', tos_url: 'https://www.tenable.com/legal' },
   { name: 'SentinelOne',       sector: 'Cybersecurity',  logo_color: '#7000FF', tos_url: 'https://www.sentinelone.com/legal/terms-of-service/' },
   { name: 'NortonLifeLock',    sector: 'Cybersecurity',  logo_color: '#FDB814', tos_url: 'https://us.norton.com/legal' },
-  { name: 'McAfee',            sector: 'Cybersecurity',  logo_color: '#C01818', tos_url: 'https://home.mcafee.com/supportpages/termsandconditions.aspx' },
+  { name: 'McAfee',            sector: 'Cybersecurity',  logo_color: '#C01818', tos_url: 'https://home.mcafee.com/supportpages/termsandconditions.aspx', privacy_url: 'https://www.mcafee.com/en-us/consumer-support/policy/legal.html' },
   { name: 'Bitdefender',       sector: 'Cybersecurity',  logo_color: '#ED1C24', tos_url: 'https://www.bitdefender.com/en-us/site/view/subscription-agreement-and-terms-of-services-for-home-user-solutions' },
   { name: 'Kaspersky',         sector: 'Cybersecurity',  logo_color: '#006D5C', tos_url: 'https://www.kaspersky.com/terms-of-use' },
   { name: 'Proofpoint',        sector: 'Cybersecurity',  logo_color: '#3B3E44', tos_url: 'https://login.proofpoint.com/termsconditions/', privacy_url: 'https://www.proofpoint.com/us/legal/privacy-policy' },
@@ -183,12 +183,12 @@ const COMPANIES: Company[] = [
   { name: 'CircleCI',          sector: 'Dev Tools',      logo_color: '#343434', tos_url: 'https://circleci.com/legal/terms-of-use' },
   { name: 'Bitbucket',         sector: 'Dev Tools',      logo_color: '#0052CC', tos_url: 'https://www.atlassian.com/legal/atlassian-customer-agreement' },
   // E-commerce (additional)
-  { name: 'Wayfair',           sector: 'E-commerce',     logo_color: '#7F187F', tos_url: 'https://www.wayfair.com/terms?section=terms-of-use' },
+  { name: 'Wayfair',           sector: 'E-commerce',     logo_color: '#7F187F', tos_url: 'https://www.wayfair.com/terms?section=terms-of-use', privacy_url: 'https://www.wayfair.com/terms?section=privacy-policy' },
   { name: 'Chewy',             sector: 'E-commerce',     logo_color: '#0054A6', tos_url: 'https://www.chewy.com/app/content/terms' },
   { name: 'Instacart',         sector: 'E-commerce',     logo_color: '#43B02A', tos_url: 'https://www.instacart.com/terms' },
   { name: 'Walmart',           sector: 'E-commerce',     logo_color: '#0071CE', tos_url: 'https://www.walmart.com/help/article/walmart-com-terms-of-use/3b75080af40340d6bbd596f116fae5a0' },
   { name: 'Target',            sector: 'E-commerce',     logo_color: '#CC0000', tos_url: 'https://www.target.com/c/terms-conditions/-/n-4sr7l' },
-  { name: 'Best Buy',          sector: 'E-commerce',     logo_color: '#003087', tos_url: 'https://www.bestbuy.com/site/help-topics/terms-and-conditions/pcmcat204400050067.c?id=pcmcat204400050067' },
+  { name: 'Best Buy',          sector: 'E-commerce',     logo_color: '#003087', tos_url: 'https://www.bestbuy.com/site/help-topics/terms-and-conditions/pcmcat204400050067.c?id=pcmcat204400050067', privacy_url: 'https://www.bestbuy.com/site/help-topics/privacy-policy/pcmcat204400050062.c?id=pcmcat204400050062' },
   // Marketplace (additional)
   { name: 'Booking.com',       sector: 'Marketplace',    logo_color: '#003580', tos_url: 'https://www.booking.com/content/terms.html' },
   { name: 'Expedia',           sector: 'Marketplace',    logo_color: '#00355F', tos_url: 'https://www.expedia.com/lp/b/terms-of-service' },
@@ -198,7 +198,7 @@ const COMPANIES: Company[] = [
   { name: 'Poshmark',          sector: 'Marketplace',    logo_color: '#C02B61', tos_url: 'https://poshmark.com/terms' },
   // EdTech (additional)
   { name: 'Chegg',             sector: 'EdTech',         logo_color: '#F26522', tos_url: 'https://www.chegg.com/en-US/termsofuse/' },
-  { name: 'Khan Academy',      sector: 'EdTech',         logo_color: '#14BF96', tos_url: 'https://www.khanacademy.org/about/tos' },
+  { name: 'Khan Academy',      sector: 'EdTech',         logo_color: '#14BF96', tos_url: 'https://www.khanacademy.org/about/tos', privacy_url: 'https://www.khanacademy.org/about/privacy-policy' },
   { name: 'Skillshare',        sector: 'EdTech',         logo_color: '#00C07B', tos_url: 'https://legal.skillshare.com/hc/en-us/articles/27194932901645-Skillshare-Terms-of-Service' },
   { name: 'MasterClass',       sector: 'EdTech',         logo_color: '#000000', tos_url: 'https://www.masterclass.com/terms' },
   { name: 'Brainly',           sector: 'EdTech',         logo_color: '#B43AD2', tos_url: 'https://brainly.com/pages/terms_of_use' },
