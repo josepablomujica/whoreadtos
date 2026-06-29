@@ -254,7 +254,7 @@ const COMPANIES: Company[] = [
   // Semiconductors (additional)
   { name: 'ARM',               sector: 'Semiconductors', logo_color: '#0091BD', tos_url: 'https://www.arm.com/company/policies/terms-and-conditions' },
   // Privacy Tools
-  { name: 'whoreadtos',        sector: 'Privacy Tools',  logo_color: '#1D9E75', tos_url: 'https://whoreadtos.com/terms', privacy_url: 'https://whoreadtos.com/privacy' },
+  { name: 'Who Read ToS',      sector: 'Privacy Tools',  logo_color: '#1D9E75', tos_url: 'https://whoreadtos.com/terms', privacy_url: 'https://whoreadtos.com/privacy' },
 ];
 
 // ── Helpers ───────────────────────────────────────────────────────────────────

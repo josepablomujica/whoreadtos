@@ -273,7 +273,7 @@ export default function Rankings() {
                         >
                           {company.name}
                         </Link>
-                        {company.name === 'whoreadtos' && (
+                        {company.name === 'Who Read ToS' && (
                           <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-[#f0fdf9] text-[#1D9E75] border border-[#a7f3d0] whitespace-nowrap">
                             That&apos;s us
                           </span>
