@@ -45,6 +45,7 @@ const GRADE_LABEL: Record<string, string> = {
 const RISK_DOT: Record<string, string> = {
   high: 'bg-[#e53e3e]', medium: 'bg-[#f5a623]', positive: 'bg-[#1D9E75]',
 };
+const RISK_ORDER: Record<string, number> = { high: 0, medium: 1, positive: 2 };
 
 function toSlug(name: string) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -100,9 +101,19 @@ export default function Rankings() {
         <div className="fixed inset-0 z-50 bg-white overflow-auto" style={{ fontFamily: 'system-ui, sans-serif' }}>
           <div className="max-w-7xl mx-auto px-6 py-8">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-xl font-extrabold text-gray-900">
-                Comparing {selectedCompanies.length} companies
-              </h2>
+              <div>
+                <h2 className="text-xl font-extrabold text-gray-900">
+                  Comparing {selectedCompanies.length} companies
+                </h2>
+                <p className="mt-1 text-sm text-gray-400">
+                  {selectedCompanies.map((c, i) => (
+                    <span key={c.id}>
+                      {i > 0 && <span className="mx-1.5 text-gray-300">·</span>}
+                      {c.name}{c.score && <span className="ml-1 font-semibold text-gray-600">({c.score})</span>}
+                    </span>
+                  ))}
+                </p>
+              </div>
               <button
                 onClick={() => setComparing(false)}
                 className="text-sm text-gray-400 hover:text-gray-700 transition-colors"
@@ -116,7 +127,14 @@ export default function Rankings() {
                 style={{ gridTemplateColumns: `repeat(${selectedCompanies.length}, minmax(240px, 1fr))` }}
               >
                 {selectedCompanies.map(company => (
-                  <div key={company.id} className="border border-gray-200 rounded-2xl p-5">
+                  <div key={company.id} className="border border-gray-200 rounded-2xl p-5 relative">
+                    <button
+                      onClick={() => { const willHaveOne = selected.size <= 2; toggleSelect(company.id); if (willHaveOne) setComparing(false); }}
+                      className="absolute top-3 right-3 text-gray-300 hover:text-gray-600 transition-colors text-xl leading-none"
+                      aria-label={`Remove ${company.name}`}
+                    >
+                      ×
+                    </button>
                     <div
                       className="h-1 rounded-full mb-4"
                       style={{ backgroundColor: company.logo_color ?? '#1D9E75' }}
@@ -136,7 +154,7 @@ export default function Rankings() {
                       )}
                     </div>
                     <ul className="space-y-3">
-                      {(company.items ?? []).map((item, idx) => (
+                      {[...(company.items ?? [])].sort((a, b) => RISK_ORDER[a.risk] - RISK_ORDER[b.risk]).map((item, idx) => (
                         <li key={idx} className="flex items-start gap-2">
                           <span className={`w-2 h-2 rounded-full flex-shrink-0 mt-[5px] ${RISK_DOT[item.risk] ?? 'bg-gray-300'}`} />
                           <div>
