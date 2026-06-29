@@ -130,7 +130,7 @@ export default function Rankings() {
                   <div key={company.id} className="border border-gray-200 rounded-2xl p-5 relative">
                     <button
                       onClick={() => { const willHaveOne = selected.size <= 2; toggleSelect(company.id); if (willHaveOne) setComparing(false); }}
-                      className="absolute top-3 right-3 text-gray-300 hover:text-gray-600 transition-colors text-xl leading-none"
+                      className="absolute top-2 right-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 transition-colors text-2xl leading-none w-7 h-7 flex items-center justify-center rounded-full"
                       aria-label={`Remove ${company.name}`}
                     >
                       ×
