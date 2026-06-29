@@ -245,7 +245,7 @@ const COMPANIES: Company[] = [
   { name: 'Zoho',              sector: 'Enterprise IT',  logo_color: '#E42527', tos_url: 'https://www.zoho.com/terms.html' },
   { name: 'Citrix',            sector: 'Enterprise IT',  logo_color: '#452170', tos_url: 'https://www.cloud.com/terms-of-use' },
   { name: 'Nutanix',           sector: 'Enterprise IT',  logo_color: '#024DA1', tos_url: 'https://www.nutanix.com/legal/terms-of-use' },
-  { name: 'Pure Storage',      sector: 'Enterprise IT',  logo_color: '#FF6600', tos_url: 'https://www.purestorage.com/legal.html' },
+  { name: 'Pure Storage',      sector: 'Enterprise IT',  logo_color: '#FF6600', tos_url: 'https://www.purestorage.com/legal.html', privacy_url: 'https://www.purestorage.com/privacy' },
   { name: 'NetApp',            sector: 'Enterprise IT',  logo_color: '#0067C5', tos_url: 'https://www.netapp.com/company/legal/terms-of-use/' },
   { name: 'Juniper Networks',  sector: 'Enterprise IT',  logo_color: '#84B135', tos_url: 'https://www.juniper.net/us/en/legal-notices.html' },
   // Telecom (additional)
