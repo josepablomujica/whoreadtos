@@ -26,7 +26,9 @@ export default function Nav({
           </Link>
         </div>
         <a
-          href="#"
+          href="https://chromewebstore.google.com/detail/whoreadtos/omecejpdiegggjolmpchjpcbjlaphjhe"
+          target="_blank"
+          rel="noopener noreferrer"
           className={`${hideCtaOnMobile ? 'hidden sm:block ' : ''}bg-[#1D9E75] text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-[#179165] transition-colors`}
         >
           {ctaText}

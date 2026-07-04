@@ -22,7 +22,9 @@ export default function Home() {
         </p>
         <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
           <a
-            href="#"
+            href="https://chromewebstore.google.com/detail/whoreadtos/omecejpdiegggjolmpchjpcbjlaphjhe"
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-[#1D9E75] text-white font-bold px-6 py-3 rounded-xl hover:bg-[#179165] transition-colors text-lg"
           >
             Add to Chrome — it&apos;s free
