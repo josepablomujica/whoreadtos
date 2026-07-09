@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Nav from '@/app/components/Nav';
 import KofiLink from '@/app/components/KofiLink';
+import ShareButton from '@/app/components/ShareButton';
 import { supabase } from '@/lib/supabase';
 import ReactMarkdown from 'react-markdown';
 import type { Metadata } from 'next';
@@ -89,9 +90,12 @@ export default async function BlogPost(
             <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 leading-tight">
               {post.title}
             </h1>
-            {post.published_at && (
-              <p className="text-sm text-gray-400 mt-3">{formatDate(post.published_at)}</p>
-            )}
+            <div className="flex items-center gap-3 mt-3">
+              {post.published_at && (
+                <p className="text-sm text-gray-400">{formatDate(post.published_at)}</p>
+              )}
+              <ShareButton title={post.title} />
+            </div>
           </div>
           {post.analyses?.score && (
             <div className="flex flex-col items-center gap-1 flex-shrink-0">
