@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Nav from '@/app/components/Nav';
 import KofiLink from '@/app/components/KofiLink';
 import ShareButton from '@/app/components/ShareButton';
+import LikeButton from '@/app/components/LikeButton';
 import { supabase } from '@/lib/supabase';
 import ReactMarkdown from 'react-markdown';
 import type { Metadata } from 'next';
@@ -10,17 +11,19 @@ import type { Metadata } from 'next';
 export const dynamic = 'force-dynamic';
 
 interface Post {
+  id: string;
   title: string;
   content: string;
   published_at: string | null;
   analyses: { score: string } | null;
   companies: { name: string; sector: string; logo_color: string } | null;
+  blog_post_likes: { count: number } | null;
 }
 
 async function getPost(slug: string): Promise<Post | null> {
   const { data, error } = await supabase
     .from('blog_posts')
-    .select('title, content, published_at, analyses!analysis_id(score), companies(name, sector, logo_color)')
+    .select('id, title, content, published_at, analyses!analysis_id(score), companies(name, sector, logo_color), blog_post_likes(count)')
     .eq('slug', slug)
     .eq('status', 'published')
     .single();
@@ -95,6 +98,7 @@ export default async function BlogPost(
                 <p className="text-sm text-gray-400">{formatDate(post.published_at)}</p>
               )}
               <ShareButton title={post.title} />
+              <LikeButton slug={slug} initialCount={post.blog_post_likes?.count ?? 0} />
             </div>
           </div>
           {post.analyses?.score && (
